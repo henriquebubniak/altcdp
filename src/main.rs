@@ -1,4 +1,4 @@
-use altcdp_back::{oficina_detail, oficinas, AppState};
+use altcdp::{oficina_detail, oficinas, AppState};
 use axum::routing::{get, Router};
 use clap::Parser;
 use sqlx::postgres::PgPoolOptions;
