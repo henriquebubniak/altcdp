@@ -1,41 +1,41 @@
-insert into participants (email, first_name, last_name)
-values ('hg.bubniak@gmail.com', 'henrique', 'bubniak');
+insert into integrantes (email, nome)
+values ('hg.bubniak@gmail.com', 'henrique bubniak');
 
-insert into participants (email, first_name, last_name)
-values ('zambeta@gmail.com', 'henrique', 'zambenedetti');
+insert into integrantes (email, nome)
+values ('zambeta@gmail.com', 'henrique zambenedetti');
 
-insert into participants (email, first_name, last_name)
-values ('spadas@gmail.com', 'gabriel', 'spadafora');
+insert into integrantes (email, nome)
+values ('spadas@gmail.com', 'gabriel spadafora');
 
-insert into workshops (title, recording_link, author_id, workshop_date)
+insert into oficinas (titulo, link_gravacao, id_autor, data_oficina)
 values ('Dijkstra','googlemeet.com', 1, '2023-12-12');
 
-insert into workshops (title, recording_link, author_id, workshop_date)
+insert into oficinas (titulo, link_gravacao, id_autor, data_oficina)
 values ('Programação Dinamica','googlemeet.com', 2, '2023-12-13');
 
-insert into workshops (title, recording_link, author_id, workshop_date)
+insert into oficinas (titulo, link_gravacao, id_autor, data_oficina)
 values ('Algoritmos gulosos','googlemeet.com', 2, '2023-12-13');
 
-insert into problems (workshop_id, problem_link)
+insert into problemas (id_oficina, link_problema)
 values (1, 'atcoder.com');
 
-insert into problems (workshop_id, problem_link)
+insert into problemas (id_oficina, link_problema)
 values (1, 'codeforces.com');
 
-insert into problems (workshop_id, problem_link)
+insert into problemas (id_oficina, link_problema)
 values (2, 'timus.com');
 
-insert into problems (workshop_id, problem_link)
+insert into problemas (id_oficina, link_problema)
 values (2, 'beecrowd.com');
 
-insert into presence (participant_id, workshop_id)
+insert into presenca (id_integrante, id_oficina)
 values (1, 1);
 
-insert into presence (participant_id, workshop_id)
+insert into presenca (id_integrante, id_oficina)
 values (2, 1);
 
-insert into presence (participant_id, workshop_id)
+insert into presenca (id_integrante, id_oficina)
 values (2, 2);
 
-insert into presence (participant_id, workshop_id)
+insert into presenca (id_integrante, id_oficina)
 values (3, 2);

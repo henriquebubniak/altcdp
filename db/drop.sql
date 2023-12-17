@@ -1,2 +1,2 @@
 
-drop table if exists problems, presence, participants, workshops;
+drop table if exists problemas, presenca, integrantes, oficinas;

@@ -1,4 +1,4 @@
-use altcdp::{oficina_detail, oficinas, AppState};
+use altcdp::{oficina_detail, oficinas_preview, index, AppState};
 use axum::routing::{get, Router};
 use clap::Parser;
 use sqlx::postgres::PgPoolOptions;
@@ -38,7 +38,8 @@ async fn main() {
     tracing_subscriber::fmt::init();
 
     let app = Router::new()
-        .route("/oficinas", get(oficinas))
+        .route("/", get(index))
+        .route("/oficinas", get(oficinas_preview))
         .route("/oficinas/:id", get(oficina_detail))
         .with_state(state);
     println!("Backend listening at {}", opt.addr);

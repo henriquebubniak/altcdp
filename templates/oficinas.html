@@ -7,9 +7,10 @@
 </head>
 <body>
     {% for oficina in oficinas %}
-        <h1><a href="/oficinas/{{ oficina.workshop_id }}"> {{ oficina.title }} </a></h1>
-        <p>{{ oficina._date }}</p>
-        <p>{{ oficina.recording_link }}</p>
+        <h1><a href="/oficinas/{{ oficina.id_oficina }}"> {{ oficina.titulo }} </a></h1>
+        <p>{{ oficina.nome_autor }}</p>
+        <p>{{ oficina.link_gravacao }}</p>
+        <p>{{ oficina.data_oficina }}</p>
     {% endfor %}
 </body>
 </html>

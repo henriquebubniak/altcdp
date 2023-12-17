@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <!-- 2023-11-20 seg 16:57 -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Clube de Programação</title>
+    <meta name="generator" content="Org mode"/>
+    <meta name="author" content="Prof. Dr. Leandro Zatesko (zatesko(at)utfpr.edu.br)"/>
+    <style type="text/css">
+        <!--/*-->
+        <![CDATA[/*><!--*/
+          .title  { text-align: center;
+                     margin-bottom: .2em; }
+          .subtitle { text-align: center;
+                      font-size: medium;
+                      font-weight: bold;
+                      margin-top:0; }
+          .todo   { font-family: monospace; color: red; }
+          .done   { font-family: monospace; color: green; }
+          .priority { font-family: monospace; color: orange; }
+          .tag    { background-color: #eee; font-family: monospace;
+                    padding: 2px; font-size: 80%; font-weight: normal; }
+          .timestamp { color: #bebebe; }
+          .timestamp-kwd { color: #5f9ea0; }
+          .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+          .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+          .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+          .underline { text-decoration: underline; }
+          #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+          p.verse { margin-left: 3%; }
+          pre {
+            border: 1px solid #ccc;
+            box-shadow: 3px 3px 3px #eee;
+            padding: 8pt;
+            font-family: monospace;
+            overflow: auto;
+            margin: 1.2em;
+          }
+          pre.src {
+            position: relative;
+            overflow: visible;
+            padding-top: 1.2em;
+          }
+          pre.src:before {
+            display: none;
+            position: absolute;
+            background-color: white;
+            top: -10px;
+            right: 10px;
+            padding: 3px;
+            border: 1px solid black;
+          }
+          pre.src:hover:before { display: inline;}
+          /* Languages per Org manual */
+          pre.src-asymptote:before { content: 'Asymptote'; }
+          pre.src-awk:before { content: 'Awk'; }
+          pre.src-C:before { content: 'C'; }
+          /* pre.src-C++ doesn't work in CSS */
+          pre.src-clojure:before { content: 'Clojure'; }
+          pre.src-css:before { content: 'CSS'; }
+          pre.src-D:before { content: 'D'; }
+          pre.src-ditaa:before { content: 'ditaa'; }
+          pre.src-dot:before { content: 'Graphviz'; }
+          pre.src-calc:before { content: 'Emacs Calc'; }
+          pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+          pre.src-fortran:before { content: 'Fortran'; }
+          pre.src-gnuplot:before { content: 'gnuplot'; }
+          pre.src-haskell:before { content: 'Haskell'; }
+          pre.src-hledger:before { content: 'hledger'; }
+          pre.src-java:before { content: 'Java'; }
+          pre.src-js:before { content: 'Javascript'; }
+          pre.src-latex:before { content: 'LaTeX'; }
+          pre.src-ledger:before { content: 'Ledger'; }
+          pre.src-lisp:before { content: 'Lisp'; }
+          pre.src-lilypond:before { content: 'Lilypond'; }
+          pre.src-lua:before { content: 'Lua'; }
+          pre.src-matlab:before { content: 'MATLAB'; }
+          pre.src-mscgen:before { content: 'Mscgen'; }
+          pre.src-ocaml:before { content: 'Objective Caml'; }
+          pre.src-octave:before { content: 'Octave'; }
+          pre.src-org:before { content: 'Org mode'; }
+          pre.src-oz:before { content: 'OZ'; }
+          pre.src-plantuml:before { content: 'Plantuml'; }
+          pre.src-processing:before { content: 'Processing.js'; }
+          pre.src-python:before { content: 'Python'; }
+          pre.src-R:before { content: 'R'; }
+          pre.src-ruby:before { content: 'Ruby'; }
+          pre.src-sass:before { content: 'Sass'; }
+          pre.src-scheme:before { content: 'Scheme'; }
+          pre.src-screen:before { content: 'Gnu Screen'; }
+          pre.src-sed:before { content: 'Sed'; }
+          pre.src-sh:before { content: 'shell'; }
+          pre.src-sql:before { content: 'SQL'; }
+          pre.src-sqlite:before { content: 'SQLite'; }
+          /* additional languages in org.el's org-babel-load-languages alist */
+          pre.src-forth:before { content: 'Forth'; }
+          pre.src-io:before { content: 'IO'; }
+          pre.src-J:before { content: 'J'; }
+          pre.src-makefile:before { content: 'Makefile'; }
+          pre.src-maxima:before { content: 'Maxima'; }
+          pre.src-perl:before { content: 'Perl'; }
+          pre.src-picolisp:before { content: 'Pico Lisp'; }
+          pre.src-scala:before { content: 'Scala'; }
+          pre.src-shell:before { content: 'Shell Script'; }
+          pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+          /* additional language identifiers per "defun org-babel-execute"
+               in ob-*.el */
+          pre.src-cpp:before  { content: 'C++'; }
+          pre.src-abc:before  { content: 'ABC'; }
+          pre.src-coq:before  { content: 'Coq'; }
+          pre.src-groovy:before  { content: 'Groovy'; }
+          /* additional language identifiers from org-babel-shell-names in
+             ob-shell.el: ob-shell is the only babel language using a lambda to put
+             the execution function name together. */
+          pre.src-bash:before  { content: 'bash'; }
+          pre.src-csh:before  { content: 'csh'; }
+          pre.src-ash:before  { content: 'ash'; }
+          pre.src-dash:before  { content: 'dash'; }
+          pre.src-ksh:before  { content: 'ksh'; }
+          pre.src-mksh:before  { content: 'mksh'; }
+          pre.src-posh:before  { content: 'posh'; }
+          /* Additional Emacs modes also supported by the LaTeX listings package */
+          pre.src-ada:before { content: 'Ada'; }
+          pre.src-asm:before { content: 'Assembler'; }
+          pre.src-caml:before { content: 'Caml'; }
+          pre.src-delphi:before { content: 'Delphi'; }
+          pre.src-html:before { content: 'HTML'; }
+          pre.src-idl:before { content: 'IDL'; }
+          pre.src-mercury:before { content: 'Mercury'; }
+          pre.src-metapost:before { content: 'MetaPost'; }
+          pre.src-modula-2:before { content: 'Modula-2'; }
+          pre.src-pascal:before { content: 'Pascal'; }
+          pre.src-ps:before { content: 'PostScript'; }
+          pre.src-prolog:before { content: 'Prolog'; }
+          pre.src-simula:before { content: 'Simula'; }
+          pre.src-tcl:before { content: 'tcl'; }
+          pre.src-tex:before { content: 'TeX'; }
+          pre.src-plain-tex:before { content: 'Plain TeX'; }
+          pre.src-verilog:before { content: 'Verilog'; }
+          pre.src-vhdl:before { content: 'VHDL'; }
+          pre.src-xml:before { content: 'XML'; }
+          pre.src-nxml:before { content: 'XML'; }
+          /* add a generic configuration mode; LaTeX export needs an additional
+             (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+          pre.src-conf:before { content: 'Configuration File'; }
+
+          table { border-collapse:collapse; }
+          caption.t-above { caption-side: top; }
+          caption.t-bottom { caption-side: bottom; }
+          td, th { vertical-align:top;  }
+          th.org-right  { text-align: center;  }
+          th.org-left   { text-align: center;   }
+          th.org-center { text-align: center; }
+          td.org-right  { text-align: right;  }
+          td.org-left   { text-align: left;   }
+          td.org-center { text-align: center; }
+          dt { font-weight: bold; }
+          .footpara { display: inline; }
+          .footdef  { margin-bottom: 1em; }
+          .figure { padding: 0em; }
+          .figure p { text-align: center; }
+          .inlinetask {
+            padding: 10px;
+            border: 2px solid gray;
+            margin: 10px;
+            background: #ffffcc;
+          }
+          #org-div-home-and-up
+           { text-align: right; font-size: 70%; white-space: nowrap; }
+          textarea { overflow-x: auto; }
+          .linenr { font-size: smaller }
+          .code-highlighted { background-color: #ffff00; }
+          .org-info-js_info-navigation { border-style: none; }
+          #org-info-js_console-label
+            { font-size: 10px; font-weight: bold; white-space: nowrap; }
+          .org-info-js_search-highlight
+            { background-color: #ffff00; color: #000000; font-weight: bold; }
+          .org-svg { width: 90%; }
+          /*]]>
+        * /-- >
+        
+    </style>
+    <link rel="stylesheet" href="cdp.css" type="text/css"/>
+    <meta name="viewport" content="initial-scale=1">
+    <style>
+    .table-number {
+        display: none;
+    }
+    </style>
+
+    <script type="text/javascript" src="org-info.js">
+    /**
+     *
+     * @source: org-info.js
+     *
+     * @licstart  The following is the entire license notice for the
+     *  JavaScript code in org-info.js.
+     *
+     * Copyright (C) 2012-2019 Free Software Foundation, Inc.
+     *
+     *
+     * The JavaScript code in this tag is free software: you can
+     * redistribute it and/or modify it under the terms of the GNU
+     * General Public License (GNU GPL) as published by the Free Software
+     * Foundation, either version 3 of the License, or (at your option)
+     * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+     * without even the implied warranty of MERCHANTABILITY or FITNESS
+     * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+     *
+     * As additional permission under GNU GPL version 3 section 7, you
+     * may distribute non-source (e.g., minimized or compacted) forms of
+     * that code without the copy of the GNU GPL normally required by
+     * section 4, provided you include this license notice and a URL
+     * through which recipients can access the Corresponding Source.
+     *
+     * @licend  The above is the entire license notice
+     * for the JavaScript code in org-info.js.
+     *
+     */
+    </script>
+
+    <script type="text/javascript">
+
+    /*
+    @licstart  The following is the entire license notice for the
+    JavaScript code in this tag.
+
+    Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+    The JavaScript code in this tag is free software: you can
+    redistribute it and/or modify it under the terms of the GNU
+    General Public License (GNU GPL) as published by the Free Software
+    Foundation, either version 3 of the License, or (at your option)
+    any later version.  The code is distributed WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+    As additional permission under GNU GPL version 3 section 7, you
+    may distribute non-source (e.g., minimized or compacted) forms of
+    that code without the copy of the GNU GPL normally required by
+    section 4, provided you include this license notice and a URL
+    through which recipients can access the Corresponding Source.
+
+
+    @licend  The above is the entire license notice
+    for the JavaScript code in this tag.
+    */
+
+    ///*--><![CDATA[/*><!--*/
+    org_html_manager.set("TOC_DEPTH", "2");
+    org_html_manager.set("LINK_HOME", "");
+    org_html_manager.set("LINK_UP", "");
+    org_html_manager.set("LOCAL_TOC", "1");
+    org_html_manager.set("VIEW_BUTTONS", "0");
+    org_html_manager.set("MOUSE_HINT", "underline");
+    org_html_manager.set("FIXED_TOC", "0");
+    org_html_manager.set("TOC", "1");
+    org_html_manager.set("VIEW", "info");
+    org_html_manager.setup(); // activate after the parameters are set
+    /*]]>*/
+    //-->
+    </script>
+    <script type="text/javascript">
+    /*
+    @licstart  The following is the entire license notice for the
+    JavaScript code in this tag.
+
+    Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+    The JavaScript code in this tag is free software: you can
+    redistribute it and/or modify it under the terms of the GNU
+    General Public License (GNU GPL) as published by the Free Software
+    Foundation, either version 3 of the License, or (at your option)
+    any later version.  The code is distributed WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+    As additional permission under GNU GPL version 3 section 7, you
+    may distribute non-source (e.g., minimized or compacted) forms of
+    that code without the copy of the GNU GPL normally required by
+    section 4, provided you include this license notice and a URL
+    through which recipients can access the Corresponding Source.
+
+
+    @licend  The above is the entire license notice
+    for the JavaScript code in this tag.
+    */
+    ///*--><![CDATA[/*><!--*/
+    function CodeHighlightOn(elem, id)
+    {
+        var target = document.getElementById(id);
+        if (null != target) {
+            elem.cacheClassElem = elem.className;
+            elem.cacheClassTarget = target.className;
+            target.className = "code-highlighted";
+            elem.className = "code-highlighted";
+        }
+    }
+    function CodeHighlightOff(elem, id)
+    {
+        var target = document.getElementById(id);
+        if (elem.cacheClassElem)
+            elem.className = elem.cacheClassElem;
+        if (elem.cacheClassTarget)
+            target.className = elem.cacheClassTarget;
+    }
+    /*]]>*/
+    //-->
+    </script>
+</head>
+<body>
+    <div id="content">
+        <h1 class="title">Clube de Programação</h1>
+        <div class="org-center">
+            <p>
+                <b>
+                    Participe do 
+                    <a href="http://cdp.dainf.ct.utfpr.edu.br/utfc.html">1º UTF.c</a>
+                     !!
+                </b>
+            </p>
+        </div>
+
+        <div class="figure">
+            <p>
+                <img src="./cdp.jpg" alt="cdp.jpg"/>
+            </p>
+        </div>
+
+        <blockquote>
+            <p>
+            </p>
+
+            <p>
+                <i>Please note that being well-versed in competitive programming is not the end goal, but only a means to an end. The true end goal is to produce all-rounder computer scientists/programmers who are much readier to produce better software and to face harder CS research problems in the
+                future.</i>
+            </p>
+
+            <p>
+            <div class="org-right">
+                <p>
+                    — Steve &amp; Felix Halim (
+                    <a href="#bib">HaHa13</a>
+                    )
+                </p>
+            </div>
+            </p>
+        </blockquote>
+
+        <p>
+
+            O Clube de Programação é um projeto de extensão do
+            <a href="http://www.dainf.ct.utfpr.edu.br">Departamento Acadêmico de Informática (DAINF)</a>
+             da
+            <a href="http://www.utfpr.edu.br">Universidade Tecnológica Federal do Paraná (UTFPR)</a>
+            , Campus 
+            <a href="https://en.wikipedia.org/wiki/Curitiba">Curitiba</a>
+            ,
+            coordenado pelo 
+            <a href="http://www.dainf.ct.utfpr.edu.br/~zatesko/">Prof. Leandro M. Zatesko</a>
+            , que tem por objetivos:
+        </p>
+        <ul class="org-ul">
+            <li>
+                ser um espaço ao qual todas as pessoas interessadas em Programação (estudantes da UTFPR-CT
+                ou de outras instituições, inclusive de Ensino Médio, ou profissionais
+                que já atuam na área)
+                possam comparecer, aprender, aprimorar habilidades, e trocar
+                experiências, através da 
+                <a href="https://en.wikipedia.org/wiki/Competitive_programming">Programação Competitiva</a>
+                ;
+            </li>
+            <li>ser um espaço onde participantes possam complementar sua formação estudando conhecimentos em
+            Computação de grande interesse para a Academia e para a Indústria,
+            conhecimentos estes que,
+            geralmente, não são trabalhados com tanta profundidade nos cursos de graduação;</li>
+            <li>ser um espaço onde participantes possam organizar, promover, e
+            participar de ações que ajudem a estender os conhecimentos trocados a mais estudantes e instituições, através, por
+            exemplo, da produção de conteúdo para mídias sociais e da realização
+            de atividades com outras universidades e instituições de Ensino Médio;</li>
+            <li>
+                treinar os times da UTFPR-CT para a 
+                <a href="http://maratona.ime.usp.br/">Maratona de Programação da SBC</a>
+                ,
+                integrante da regional latinoamericana do 
+                <a href="https://icpc.baylor.edu/">ICPC</a>
+                ;
+            </li>
+            <li>fortalecer a comunidade regional de pessoas programadoras e
+            estabelecer pontes entre empresas e instituições de ensino;</li>
+            <li>servir como projeto de apoio a disciplinas de Programação nos cursos
+            de graduação e colaborar para reduzir índices de reprovação.</li>
+        </ul>
+
+        <div id="outline-container-orgcf06aee" class="outline-2">
+            <h2 id="orgcf06aee">Como se inscrever</h2>
+            <div class="outline-text-2" id="text-orgcf06aee">
+                <ul class="org-ul">
+                    <li>
+                        Preencha o 
+                        <a href="https://forms.gle/1VLEQqiTTCxk4paFA">formulário de inscrição</a>
+                    </li>
+                    <li>
+                        Nenhum pré-requisito é necessário (
+                        <a href="#oficinas">oficinas</a>
+                         e 
+                        <a href="#treinos">treinos</a>
+                         são
+                        <i>multi-nível</i>
+                        ), mas recomenda-se que novos integrantes realizem a
+                        <a href="#jornada">Jornada de Iniciação</a>
+                    </li>
+                    <li>A inscrição e a participação nas atividades do Clube são totalmente
+                    gratuitas e abertas a todas as pessoas interessadas (estudantes da UTFPR-CT
+                    ou de outras instituições, ou profissionais da área)</li>
+                    <li>Dúvidas? Envie um e-mail para zatesko(at)utfpr.edu.br</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="outline-container-orgd728a17" class="outline-2">
+            <h2 id="orgd728a17">Atribuições do voluntário extensionista certificado</h2>
+            <div class="outline-text-2" id="text-orgd728a17">
+                <ul class="org-ul">
+                    <li>Agir como protagonista das oficinas e treinos do Clube de Programação,
+                    compartilhando seus códigos e sugerindo problemas</li>
+                    <li>Participar de ações de divulgação do Clube de Programação nas comunidades
+                    interna e externa</li>
+                    <li>Participar da realização de minicursos e oficinas em outras instituições e comunidades</li>
+                    <li>Participar da produção de conteúdo de Programação Competitiva para o
+                    YouTube e para redes sociais</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="outline-container-orge2da37d" class="outline-2">
+            <h2 id="oficinas">
+                <a id="orge2da37d"></a>
+                Oficinas
+            </h2>
+            <div class="outline-text-2" id="text-oficinas">
+                <ul class="org-ul">
+                    <li>
+                        <i>
+                            <b><a href="/oficinas"> Oficinas </a></b>
+                        </i>
+                </ul>
+            </div>
+
+        <div id="outline-container-org3caaaac" class="outline-2">
+            <h2 id="jornada">
+                <a id="org3caaaac"></a>
+                Jornada de Iniciação
+            </h2>
+            <div class="outline-text-2" id="text-jornada">
+                <p>
+
+                    Uma coleção de 
+                    <i>Horas Juniores</i>
+                     formando um curso de introdução a
+                    Programação Competitiva para iniciar o participante no Clube de
+                    Programação
+                </p>
+
+                <ol class="org-ol">
+                    <li>
+                        <a href="https://youtu.be/yaMuigWbpwY">Apresentação do Clube de Programação e Introdução a Programação I</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr23fev2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/vKpenpPSGYs">Apresentação do Clube de Programação e Introdução a Programação II</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr2mar2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/w2EgaraUfwY">Apresentação do Clube de Programação e Introdução a Programação III</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr9mar2021">treino1</a>
+                        ; 
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr23mar2021">treino2</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/4QcFNWXFHfg">Introdução a Condicionais I</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr30mar2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/x1BfstKzBPQ">Introdução a Condicionais II</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr6abr2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/NtepxUQS_tY">Introdução a Laços I</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr13abr2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/WozTj9hagzA">Introdução a Laços II</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr27abr2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/jGUjN-4XRKE">Introdução a Recursão I</a>
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/WwzDqsE36qo">Introdução a Recursão II</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr11mai2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/mRDTKXSoOGA">Prática de Problemas</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr22jun2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/AXhP5Jp3aag">Problemas Ad Hoc de Simulação e Introdução a Arrays</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr6jul2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/nLPOTaAVrZg">Problemas com Array</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr13jul2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/2R9g7sVjQNM">Algoritmos de Teoria dos Números I</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr20jul2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/_6cNFMS1NmY">Algoritmos de Teoria dos Números II</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr27jul2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/p7QN3iyIG1g">Prefix Sum, algoritmos gulosos, Estruturas da STL/C++ I</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr17ago2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/8TnDlGtOJrE">Estruturas da STL/C++ II + MUF</a>
+                        (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr31ago2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/c3R4tG84TD8">Árvore de Fenwick (BIT) e Árvore de Segmentos</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr28set2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        Introdução a Buscas em Grafos 
+                        <a href="https://youtu.be/NTN3bYuh-kw">I</a>
+                         e 
+                        <a href="https://youtu.be/JEEx6z0Fcvc">II</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr5out2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/Us1qS6jlZIo">Árvores geradoras mínimas</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr26out2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/LOBTy-bbTM8">Caminhos Mínimos em Grafos I</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr16nov2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/dhRgPnQWits">Caminhos Mínimos em Grafos II e Outras Aplicações</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr30nov2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/WCxtzyT458Q">Caminhos Mínimos em Grafos III e Outras Aplicações</a>
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/6T8vCWOl3C4">Introdução a Programação Dinâmica I</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr14dez2021">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/7SXngFMBijw">Introdução a Programação Dinâmica II</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr8mar2022">treino</a>
+                        )
+                    </li>
+                    <li>
+                        Introdução a Programação Dinâmica 
+                        <a href="https://youtu.be/22wefr3w9Js">III</a>
+                         e 
+                        <a href="https://youtu.be/ZerKEN4UwZQ">IV</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr15mar2022">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/6PLcxIIdDAk">Algoritmos e Estruturas para Strings I</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr22mar2022">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/SIxDwqseSPU">Algoritmos e Estruturas para Strings II</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr5abr2022">treino</a>
+                        )
+                    </li>
+                    <li>
+                        Algoritmos e Estruturas para Strings III: Aho–Corasick (Partes 
+                        <a href="https://youtu.be/7fWvs35fwjk">1</a>
+                         e 
+                        <a href="https://youtu.be/5Ch8hE3P-GA">2</a>
+                        ) (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr19abr2022">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/klYZO7yu6Ok">Algoritmos e Estruturas para Strings IV: Suffix Array</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr26abr2022">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/GnAPGRFM-4M">Fluxo e Emparelhamentos I</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr3mai2022">treino</a>
+                         para as Horas Juniores 30–33)
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/AbvInjZOgmw">Fluxo e Emparelhamentos II</a>
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/wnpUzB32aHs">Modelagem com Fluxo e Emparelhamentos I</a>
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/XlTPjO-fiR4">Modelagem com Fluxo e Emparelhamentos II</a>
+                    </li>
+                    <li>
+                        Geometria Computacional I: vetores, e fecho convexo (Partes 
+                        <a href="https://youtu.be/BXZ2Z7eLoGw">1</a>
+                         e 
+                        <a href="https://youtu.be/_oWLZn7R74g">2</a>
+                        ) (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr7jun2022">treino</a>
+                        )
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/NOsriLdyGsw">Geometria Computacional II: círculos, triângulos, e polígonos</a>
+                         (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/history.html#tr5jul2022">treino</a>
+                         para as Horas Juniores 35–36)
+                    </li>
+                    <li>
+                        Geometria Computacional III: Line Sweep (Partes 
+                        <a href="https://youtu.be/K_pgTkxd_f0">1</a>
+                         e 
+                        <a href="https://youtu.be/yEP-vYbhxAM">2</a>
+                        )
+                    </li>
+                    <li>
+                        Geometria Computacional IV: distâncias entre retas e segmentos (Partes 
+                        <a href="https://youtu.be/faqJeL8F0T8">1</a>
+                         e 
+                        <a href="https://youtu.be/Zjo3g4wuriE">2</a>
+                        ) (
+                        <a href="http://cdp.dainf.ct.utfpr.edu.br/index.html#tr9ago2022">treino</a>
+                        )
+                    </li>
+                    <li>
+                        Teoria de Jogos (ver vídeos 
+                        <a href="https://youtu.be/118oYfPqCaI">1</a>
+                        , 
+                        <a href="https://youtu.be/MeRFgmzFCrQ">2</a>
+                        , 
+                        <a href="https://youtu.be/vr7aWBfk_v4">3</a>
+                        ) (
+                        <a href="https://www.hackerrank.com/domains/algorithms/game-theory/difficulty/all/page/1">treino</a>
+                        )
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div id="outline-container-org1c5c5a8" class="outline-2">
+            <h2 id="org1c5c5a8">Links úteis</h2>
+            <div class="outline-text-2" id="text-org1c5c5a8">
+                <ul class="org-ul">
+                    <li>
+                        <a href="http://maratona.sbc.org.br/">Página oficial da Maratona de Programação</a>
+                    </li>
+                    <li>
+                        <a href="https://icpc.global/">Página oficial do International Collegiate Programming Contest (ICPC)</a>
+                    </li>
+                    <li>
+                        <a href="https://olimpiada.ic.unicamp.br/">Página oficial da Olimpíada Brasileira de Informática (OBI)</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="outline-container-org2004a95" class="outline-2">
+            <h2 id="bib">
+                <a id="org2004a95"></a>
+                Bibliografia
+            </h2>
+            <div class="outline-text-2" id="text-bib">
+                <p>
+                    <script src="https://bibbase.org/show?bib=http%3A%2F%2Fcdp.dainf.ct.utfpr.edu.br%2Fcdp.bib&jsonp=1&jsonp=1&jsonp=1&theme=simple&groupby=note&authorFirst=1&fullnames=1&css=http%3A%2F%2Fcdp.dainf.ct.utfpr.edu.br%2Fcdp.css"></script>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="postamble" class="status">
+        <p class="author">Author: Prof. Dr. Leandro Zatesko (zatesko(at)utfpr.edu.br)</p>
+        <p class="date">Created: 2023-11-20 seg 16:57</p>
+        <p class="validation">
+            <a href="http://validator.w3.org/check?uri=referer">Validate</a>
+        </p>
+    </div>
+</body>
+</html>
