@@ -1,8 +1,10 @@
 use crate::templates::{IndexTemplate, InscrevaSeTemplate, OficinaPreview, OficinasTemplate};
 use askama::Template;
-use axum::extract::{Path, State};
-use axum::response::{Html, Redirect};
-use axum::Form;
+use axum::{
+    extract::{Path, State},
+    response::{Html, Redirect},
+    Form
+};
 use serde::Deserialize;
 use sqlx::{Pool, Postgres};
 use std::sync::{Arc, Mutex};
