@@ -84,7 +84,7 @@ pub async fn index(State(state): State<AppState>) -> Html<String> {
     Html(html.render().unwrap())
 }
 
-pub async fn inscreva_se() -> Html<String> {
+pub async fn login() -> Html<String> {
     let html = InscrevaSeTemplate {};
     Html(html.render().unwrap())
 }

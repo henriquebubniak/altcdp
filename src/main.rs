@@ -1,7 +1,6 @@
 use std::sync::{Arc, Mutex};
-
 use altcdp::{
-    index, inscreva_se, logout, oficina_detail, oficinas_preview, verifica_login, AppState,
+    index, login, logout, oficina_detail, oficinas_preview, verifica_login, AppState,
 };
 use axum::routing::{get, post, Router};
 use sqlx::{Pool, Postgres};
@@ -24,8 +23,8 @@ async fn main() {
         .route("/", get(index))
         .route("/oficinas", get(oficinas_preview))
         .route("/oficinas/:id", get(oficina_detail))
-        .route("/inscreva_se", get(inscreva_se))
-        .route("/inscreva_se", post(verifica_login))
+        .route("/login", get(login))
+        .route("/login", post(verifica_login))
         .route("/logout", get(logout))
         .with_state(state);
     println!("Backend listening at 0.0.0.0:8081");
