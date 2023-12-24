@@ -310,12 +310,14 @@
         </script>
     </head>
 <body>
-    {% for oficina in oficinas %}
-        <div>
-            <h1><a href="/oficinas/{{ oficina.id_oficina }}"> {{ oficina.titulo }}: {{ oficina.data_oficina }} </a></h1>
-            <h2>{{ oficina.nome_autor }}</h2>
-            <a href="{{ oficina.link_gravacao }}">Link da gravação</a>
-        </div>
-    {% endfor %}
+   <form method="post">
+   <label for="username"> Username: </label>
+   <input type="text" id="username" name="username" required />
+
+   <label for="password">Password:</label>
+   <input type="password" id="password" name="password" required>
+
+   <button type="submit">Submit</button>
+   </form>
 </body>
 </html>

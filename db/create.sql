@@ -4,6 +4,7 @@ create table integrantes (
 	id_integrante serial primary key,
 	email varchar(50),
 	nome varchar(50),
+	senha varchar(50),
 );
 
 create table oficinas (

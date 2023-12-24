@@ -314,21 +314,6 @@
 <body>
     <div id="content">
         <h1 class="title">Clube de Programação</h1>
-        <div class="org-center">
-            <p>
-                <b>
-                    Participe do 
-                    <a href="http://cdp.dainf.ct.utfpr.edu.br/utfc.html">1º UTF.c</a>
-                     !!
-                </b>
-            </p>
-        </div>
-
-        <div class="figure">
-            <p>
-                <img src="./cdp.jpg" alt="cdp.jpg"/>
-            </p>
-        </div>
 
         <blockquote>
             <p>
@@ -351,104 +336,29 @@
         </blockquote>
 
         <p>
-
             O Clube de Programação é um projeto de extensão do
             <a href="http://www.dainf.ct.utfpr.edu.br">Departamento Acadêmico de Informática (DAINF)</a>
              da
-            <a href="http://www.utfpr.edu.br">Universidade Tecnológica Federal do Paraná (UTFPR)</a>
-            , Campus 
-            <a href="https://en.wikipedia.org/wiki/Curitiba">Curitiba</a>
-            ,
+            <a href="http://www.utfpr.edu.br">Universidade Tecnológica Federal do Paraná (UTFPR)</a>, Campus 
+            <a href="https://en.wikipedia.org/wiki/Curitiba">Curitiba</a>,
             coordenado pelo 
-            <a href="http://www.dainf.ct.utfpr.edu.br/~zatesko/">Prof. Leandro M. Zatesko</a>
-            , que tem por objetivos:
+            <a href="http://www.dainf.ct.utfpr.edu.br/~zatesko/">Prof. Leandro M. Zatesko</a>.
         </p>
-        <ul class="org-ul">
-            <li>
-                ser um espaço ao qual todas as pessoas interessadas em Programação (estudantes da UTFPR-CT
-                ou de outras instituições, inclusive de Ensino Médio, ou profissionais
-                que já atuam na área)
-                possam comparecer, aprender, aprimorar habilidades, e trocar
-                experiências, através da 
-                <a href="https://en.wikipedia.org/wiki/Competitive_programming">Programação Competitiva</a>
-                ;
-            </li>
-            <li>ser um espaço onde participantes possam complementar sua formação estudando conhecimentos em
-            Computação de grande interesse para a Academia e para a Indústria,
-            conhecimentos estes que,
-            geralmente, não são trabalhados com tanta profundidade nos cursos de graduação;</li>
-            <li>ser um espaço onde participantes possam organizar, promover, e
-            participar de ações que ajudem a estender os conhecimentos trocados a mais estudantes e instituições, através, por
-            exemplo, da produção de conteúdo para mídias sociais e da realização
-            de atividades com outras universidades e instituições de Ensino Médio;</li>
-            <li>
-                treinar os times da UTFPR-CT para a 
-                <a href="http://maratona.ime.usp.br/">Maratona de Programação da SBC</a>
-                ,
-                integrante da regional latinoamericana do 
-                <a href="https://icpc.baylor.edu/">ICPC</a>
-                ;
-            </li>
-            <li>fortalecer a comunidade regional de pessoas programadoras e
-            estabelecer pontes entre empresas e instituições de ensino;</li>
-            <li>servir como projeto de apoio a disciplinas de Programação nos cursos
-            de graduação e colaborar para reduzir índices de reprovação.</li>
-        </ul>
 
-        <div id="outline-container-orgcf06aee" class="outline-2">
-            <h2 id="orgcf06aee">Como se inscrever</h2>
-            <div class="outline-text-2" id="text-orgcf06aee">
-                <ul class="org-ul">
-                    <li>
-                        Preencha o 
-                        <a href="https://forms.gle/1VLEQqiTTCxk4paFA">formulário de inscrição</a>
-                    </li>
-                    <li>
-                        Nenhum pré-requisito é necessário (
-                        <a href="#oficinas">oficinas</a>
-                         e 
-                        <a href="#treinos">treinos</a>
-                         são
-                        <i>multi-nível</i>
-                        ), mas recomenda-se que novos integrantes realizem a
-                        <a href="#jornada">Jornada de Iniciação</a>
-                    </li>
-                    <li>A inscrição e a participação nas atividades do Clube são totalmente
-                    gratuitas e abertas a todas as pessoas interessadas (estudantes da UTFPR-CT
-                    ou de outras instituições, ou profissionais da área)</li>
-                    <li>Dúvidas? Envie um e-mail para zatesko(at)utfpr.edu.br</li>
-                </ul>
+        {% if login %}
+            <h2> Já está logado </h2>
+            <a href="/logout"> Logout </a>
+        {% else %}
+            <div id="outline-container-orgcf06aee" class="outline-2">
+                <h2 id="orgcf06aee"> <a href="/inscreva_se">Login</a></h2>
             </div>
-        </div>
-
-        <div id="outline-container-orgd728a17" class="outline-2">
-            <h2 id="orgd728a17">Atribuições do voluntário extensionista certificado</h2>
-            <div class="outline-text-2" id="text-orgd728a17">
-                <ul class="org-ul">
-                    <li>Agir como protagonista das oficinas e treinos do Clube de Programação,
-                    compartilhando seus códigos e sugerindo problemas</li>
-                    <li>Participar de ações de divulgação do Clube de Programação nas comunidades
-                    interna e externa</li>
-                    <li>Participar da realização de minicursos e oficinas em outras instituições e comunidades</li>
-                    <li>Participar da produção de conteúdo de Programação Competitiva para o
-                    YouTube e para redes sociais</li>
-                </ul>
-            </div>
-        </div>
+        {% endif %}
 
         <div id="outline-container-orge2da37d" class="outline-2">
             <h2 id="oficinas">
                 <a id="orge2da37d"></a>
-                Oficinas
+                <a href="/oficinas">Oficinas</a>
             </h2>
-            <div class="outline-text-2" id="text-oficinas">
-                <ul class="org-ul">
-                    <li>
-                        <i>
-                            <b><a href="/oficinas"> Oficinas </a></b>
-                        </i>
-                </ul>
-            </div>
 
         <div id="outline-container-org3caaaac" class="outline-2">
             <h2 id="jornada">
@@ -722,19 +632,6 @@
                 </ul>
             </div>
         </div>
-
-        <div id="outline-container-org2004a95" class="outline-2">
-            <h2 id="bib">
-                <a id="org2004a95"></a>
-                Bibliografia
-            </h2>
-            <div class="outline-text-2" id="text-bib">
-                <p>
-                    <script src="https://bibbase.org/show?bib=http%3A%2F%2Fcdp.dainf.ct.utfpr.edu.br%2Fcdp.bib&jsonp=1&jsonp=1&jsonp=1&theme=simple&groupby=note&authorFirst=1&fullnames=1&css=http%3A%2F%2Fcdp.dainf.ct.utfpr.edu.br%2Fcdp.css"></script>
-                </p>
-            </div>
-        </div>
-    </div>
     <div id="postamble" class="status">
         <p class="author">Author: Prof. Dr. Leandro Zatesko (zatesko(at)utfpr.edu.br)</p>
         <p class="date">Created: 2023-11-20 seg 16:57</p>
