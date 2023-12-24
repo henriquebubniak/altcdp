@@ -18,14 +18,15 @@ pub struct AppState {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Usuario {
-    username: String,
-    password: String,
+pub struct Login {
+    usuario: String,
+    senha: String,
 }
 
 pub async fn oficinas_preview(State(state): State<AppState>) -> Html<String> {
     let oficinas: Vec<OficinaPreview> = sqlx::query_as(
-        r"select o.titulo, o.id_oficina, o.link_gravacao, i.nome nome_autor, o.data_oficina 
+        r"
+        select o.titulo, o.id_oficina, o.link_gravacao, i.nome nome_autor, o.data_oficina 
         from oficinas o, integrantes i
         where o.id_autor = i.id_integrante",
     )
@@ -36,20 +37,21 @@ pub async fn oficinas_preview(State(state): State<AppState>) -> Html<String> {
     Html(html.render().unwrap())
 }
 
-pub async fn verifica_login(State(state): State<AppState>, Form(body): Form<Usuario>) -> Redirect {
+pub async fn verifica_login(State(state): State<AppState>, Form(login): Form<Login>) -> Redirect {
     let user = sqlx::query(
-        r"select * 
+        r"
+        select * 
         from integrantes 
         where email = $1
         and senha = $2",
     )
-    .bind(body.username)
-    .bind(body.password)
+    .bind(login.usuario)
+    .bind(login.senha)
     .fetch_all(&state.db)
     .await
     .unwrap();
     match user.len() {
-        0 => Redirect::to("/inscreva_se"),
+        0 => Redirect::to("/login"),
         _ => {
             *state.login.lock().unwrap() = true;
             Redirect::to("/")
@@ -64,7 +66,8 @@ pub async fn logout(State(state): State<AppState>) -> Redirect {
 
 pub async fn oficina_detail(State(state): State<AppState>, Path(id): Path<i32>) -> Html<String> {
     let oficinas: Vec<OficinaPreview> = sqlx::query_as(
-        r"select o.titulo, o.id_oficina, o.link_gravacao, i.nome nome_autor, o.data_oficina 
+        r"
+        select o.titulo, o.id_oficina, o.link_gravacao, i.nome nome_autor, o.data_oficina 
         from oficinas o, integrantes i
         where o.id_autor = i.id_integrante
         and o.id_oficina = $1",
