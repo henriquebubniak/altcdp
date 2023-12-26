@@ -1,11 +1,11 @@
-insert into integrantes (email, nome)
-values ('hg.bubniak@gmail.com', 'henrique bubniak');
+insert into integrantes (email, nome, sobrenome, senha)
+values ('hg.bubniak@gmail.com', 'henrique', 'bubniak', 'abacate123');
 
-insert into integrantes (email, nome)
-values ('zambeta@gmail.com', 'henrique zambenedetti');
+insert into integrantes (email, nome, sobrenome, senha)
+values ('zambeta@gmail.com', 'henrique', 'zambenedetti', 'abacaxi123');
 
-insert into integrantes (email, nome)
-values ('spadas@gmail.com', 'gabriel spadafora');
+insert into integrantes (email, nome, sobrenome, senha)
+values ('spadas@gmail.com', 'gabriel', 'spadafora', 'manga123');
 
 insert into oficinas (titulo, link_gravacao, id_autor, data_oficina)
 values ('Dijkstra','googlemeet.com', 1, '2023-12-12');

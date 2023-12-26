@@ -1,5 +1,7 @@
-use altcdp::{index, login, oficina_detail, oficinas_preview, AppState};
-use axum::routing::{get, Router};
+use altcdp::{
+    criar_usuario, index, inscreva_se, login, oficina_detail, oficinas_preview, AppState,
+};
+use axum::routing::{get, post, Router};
 use sqlx::{Pool, Postgres};
 
 #[tokio::main]
@@ -8,9 +10,7 @@ async fn main() {
         .await
         .unwrap();
 
-    let state = AppState {
-        db: pool,
-    };
+    let state = AppState { db: pool };
     if std::env::var("RUST_LOG").is_err() {
         std::env::set_var("RUST_LOG", format!("debug,hyper=info,mio=info"))
     }
@@ -20,10 +20,10 @@ async fn main() {
         .route("/oficinas", get(oficinas_preview))
         .route("/oficinas/:id", get(oficina_detail))
         .route("/login", get(login))
+        .route("/inscreva_se", get(inscreva_se))
+        .route("/inscreva_se", post(criar_usuario))
         .with_state(state);
     println!("Backend listening at 0.0.0.0:8081");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8081").await.unwrap();
-    axum::serve(listener, app)
-        .await
-        .unwrap();
+    axum::serve(listener, app).await.unwrap();
 }

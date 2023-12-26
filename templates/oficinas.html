@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-      <!-- 2023-11-20 seg 16:57 -->
-      <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-      <meta name="viewport" content="width=device-width, initial-scale=1"/>
-      <title>Clube de Programação</title>
-      <meta name="generator" content="Org mode"/>
-      <meta name="author" content="Prof. Dr. Leandro Zatesko (zatesko(at)utfpr.edu.br)"/>
-  </head>
-<body>
+{% extends "base.html" %}
+{% block content %}
     {% for oficina in oficinas %}
         <div>
             <h1><a href="/oficinas/{{ oficina.id_oficina }}"> {{ oficina.titulo }}: {{ oficina.data_oficina }} </a></h1>
@@ -16,5 +7,4 @@
             <a href="{{ oficina.link_gravacao }}">Link da gravação</a>
         </div>
     {% endfor %}
-</body>
-</html>
+{% endblock content %}

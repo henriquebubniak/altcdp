@@ -1,41 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-    <!-- 2023-11-20 seg 16:57 -->
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Clube de Programação</title>
-    <meta name="generator" content="Org mode"/>
-    <meta name="author" content="Prof. Dr. Leandro Zatesko (zatesko(at)utfpr.edu.br)"/>
-</head>
-<body>
-    <h1 class="title">Clube de Programação</h1>
+{% extends "base.html" %}
+{% block content %}
+<h1 class="title">Clube de Programação</h1>
 
-    <blockquote>
-        <p>
-            <i>Please note that being well-versed in competitive programming is not the end goal, but only a means to an end. The true end goal is to produce all-rounder computer scientists/programmers who are much readier to produce better software and to face harder CS research problems in the
-            future.</i>
-        </p>
-        <p>
-            — Steve &amp; Felix Halim (
-            <a href="#bib">HaHa13</a>
-            )
-        </p>
-    </blockquote>
+<blockquote>
     <p>
-        O Clube de Programação é um projeto de extensão do Departamento Acadêmico de Informática (DAINF) da Universidade Tecnológica Federal do Paraná (UTFPR), Campus Curitiba, coordenado pelo 
-        <a href="http://www.dainf.ct.utfpr.edu.br/~zatesko/">Prof. Leandro M. Zatesko</a>.
+        <i>Please note that being well-versed in competitive programming is not the end goal, but only a means to an end. The true end goal is to produce all-rounder computer scientists/programmers who are much readier to produce better software and to face harder CS research problems in the
+        future.</i>
     </p>
+    <p>
+        — Steve &amp; Felix Halim
+    </p>
+</blockquote>
+<p>
+    O Clube de Programação é um projeto de extensão do Departamento Acadêmico de Informática (DAINF) da Universidade Tecnológica Federal do Paraná (UTFPR), Campus Curitiba, coordenado pelo 
+    <a href="https://pessoal.dainf.ct.utfpr.edu.br/zatesko/">Prof. Leandro M. Zatesko</a>.
+</p>
 
-    {% if login %}
-        <h2> Já está logado </h2>
-        <a href="/logout"> Logout </a>
-    {% else %}
-        <h2 id="orgcf06aee"> <a href="/login">Login</a></h2>
-    {% endif %}
+{% if login %}
+    <h2> Já está logado </h2>
+    <a href="/logout"> Logout </a>
+{% else %}
+    <h2> <a href="/login">Login</a></h2>
+    <h2><a href="/inscreva_se">Inscreva-se</a></h2>
+{% endif %}
 
-    <h2><a href="/oficinas">Oficinas</a></h2>
-</body>
-</html>
+<h2><a href="/oficinas">Oficinas</a></h2>
+
+{% endblock content %}

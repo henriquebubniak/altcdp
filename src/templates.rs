@@ -25,3 +25,7 @@ pub struct OficinaPreview {
 #[derive(Template)]
 #[template(path = "login.html")]
 pub struct LoginTemplate {}
+
+#[derive(Template)]
+#[template(path = "inscreva_se.html")]
+pub struct InscrevaSeTemplate {}
