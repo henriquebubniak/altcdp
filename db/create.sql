@@ -1,5 +1,4 @@
 
-
 create table integrantes (
 	id_integrante serial primary key,
 	email varchar(50),

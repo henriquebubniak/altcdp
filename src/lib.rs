@@ -3,15 +3,23 @@ use crate::templates::{
 };
 use askama::Template;
 use axum::{
+    debug_handler,
     extract::{Path, State},
     response::{Html, Redirect},
     Form,
-    debug_handler
 };
 use serde::{Deserialize, Serialize};
-use sqlx::{Pool, Postgres};
+use sqlx::{Pool, Postgres, Row};
+use tower_sessions::Session;
 
 mod templates;
+
+const LOGIN_KEY: &str = "login";
+
+#[derive(Default, Deserialize, Serialize, Debug)]
+struct Login {
+    id: Option<i32>,
+}
 
 #[derive(Clone)]
 pub struct AppState {
@@ -23,6 +31,12 @@ pub struct CriarUsuario {
     email: String,
     nome: String,
     sobrenome: String,
+    senha: String,
+}
+
+#[derive(Deserialize, Serialize)]
+pub struct Credenciais {
+    email: String,
     senha: String,
 }
 
@@ -56,14 +70,76 @@ pub async fn oficina_detail(State(state): State<AppState>, Path(id): Path<i32>) 
     Html(html.render().unwrap())
 }
 
-pub async fn index() -> Html<String> {
-    let html = IndexTemplate { login: false };
+pub async fn index(State(estado): State<AppState>, session: Session) -> Html<String> {
+    let login = session.get::<Login>(LOGIN_KEY).await.unwrap();
+    let html = match login {
+        None => IndexTemplate { login: None },
+        Some(l) => {
+            match l.id {
+                Some(id) => {
+                    let u = sqlx::query(
+                        r"
+                        select nome 
+                        from integrantes i
+                        where i.id_integrante = $1",
+                        )
+                        .bind(id)
+                        .fetch_all(&estado.db)
+                        .await
+                        .unwrap();
+                    let u: String = u[0].get("nome");
+                    IndexTemplate { login: Some(u) }
+                }
+                None => IndexTemplate { login: None }
+            }
+        }
+    };
     Html(html.render().unwrap())
 }
 
 pub async fn login() -> Html<String> {
     let html = LoginTemplate {};
     Html(html.render().unwrap())
+}
+
+pub async fn verifica_login(
+    State(estado): State<AppState>,
+    session: Session,
+    Form(credenciais): Form<Credenciais>,
+) -> Redirect {
+    let user = sqlx::query(
+        r"select * 
+        from integrantes 
+        where email = $1
+        and senha = $2",
+    )
+    .bind(credenciais.email)
+    .bind(credenciais.senha)
+    .fetch_all(&estado.db)
+    .await
+    .unwrap();
+    match user.len() {
+        0 => {
+            let login = Login {
+                id: None,
+            };
+            session.insert(LOGIN_KEY, login).await.unwrap();
+            Redirect::to("/login")
+        }
+        _ => {
+            let login = Login {
+                id: Some(user[0].get("id_integrante")),
+            };
+            println!("{:?}", login);
+            session.insert(LOGIN_KEY, login).await.unwrap();
+            Redirect::to("/")
+        }
+    }
+}
+
+pub async fn logout(session: Session) -> Redirect {
+    session.insert(LOGIN_KEY, Login { id: None }).await.unwrap();
+    Redirect::to("/")
 }
 
 pub async fn inscreva_se() -> Html<String> {
@@ -79,7 +155,7 @@ pub async fn criar_usuario(
     let _ = sqlx::query(
         r"
         insert into integrantes (email, nome, sobrenome, senha)
-        values ($1, $2, $3, $4)"
+        values ($1, $2, $3, $4)",
     )
     .bind(criar_usuario.email)
     .bind(criar_usuario.nome)

@@ -10,7 +10,7 @@ pub struct OficinasTemplate {
 #[derive(Template)]
 #[template(path = "index.html")]
 pub struct IndexTemplate {
-    pub login: bool,
+    pub login: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, sqlx::FromRow)]

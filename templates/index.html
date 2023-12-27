@@ -16,13 +16,14 @@
     <a href="https://pessoal.dainf.ct.utfpr.edu.br/zatesko/">Prof. Leandro M. Zatesko</a>.
 </p>
 
-{% if login %}
-    <h2> Já está logado </h2>
-    <a href="/logout"> Logout </a>
-{% else %}
-    <h2> <a href="/login">Login</a></h2>
-    <h2><a href="/inscreva_se">Inscreva-se</a></h2>
-{% endif %}
+{% match login %}   
+    {% when Some with (nome) %}
+        <h2> Bem vindo, {{ nome }} </h2>
+        <a href="/logout"> Logout </a>
+    {% when None %}
+        <h2> <a href="/login">Login</a></h2>
+        <h2><a href="/inscreva_se">Inscreva-se</a></h2>
+{% endmatch %}
 
 <h2><a href="/oficinas">Oficinas</a></h2>
 
