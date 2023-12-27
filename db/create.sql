@@ -12,7 +12,7 @@ create table oficinas (
 	id_oficina serial primary key,
 	link_gravacao varchar(50),
 	id_autor int,
-	data_oficina varchar(50),
+	data_oficina date,
 	foreign key (id_autor) references integrantes(id_integrante)
 );
 

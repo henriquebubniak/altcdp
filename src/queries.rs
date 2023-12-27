@@ -1,8 +1,8 @@
-use sqlx::{Pool, Postgres, Row};
+use sqlx::{Pool, Postgres, Row, types::chrono::NaiveDate};
 
-use crate::{Problema, OficinaPreview};
+use crate::structs::{Credenciais, CriarUsuario, OficinaPreview, Problema};
 
-pub async fn get_oficina_preview(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
+pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
     let mut oficinas = Vec::new();
     let result = sqlx::query(
         r"
@@ -28,15 +28,107 @@ pub async fn get_oficina_preview(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
         let mut nome_autor: String = row.get("nome");
         nome_autor.push(' ');
         nome_autor.push_str(&sobrenome);
+        let data_oficina: NaiveDate = row.get("data_oficina");
+        let data_oficina = data_oficina.format("%d/%m/%Y").to_string();
         let oficina_pre = OficinaPreview {
             titulo: row.get("titulo"),
             id_oficina: row.get("id_oficina"),
             link_gravacao: row.get("link_gravacao"),
             nome_autor,
-            data_oficina: row.get("data_oficina"),
+            data_oficina,
             problemas,
         };
         oficinas.push(oficina_pre);
     }
     oficinas
+}
+
+pub async fn presente(id_integrante: i32, id_oficina: i32, db: &Pool<Postgres>) -> bool {
+    sqlx::query(
+        r"
+    select *
+    from presenca p
+    where p.id_integrante = $1
+    and p.id_oficina = $2",
+    )
+    .bind(id_integrante)
+    .bind(id_oficina)
+    .fetch_optional(db)
+    .await
+    .unwrap()
+    .is_some()
+}
+pub async fn get_nome(id_integrante: i32, db: &Pool<Postgres>) -> String {
+    let u = sqlx::query(
+        r"
+        select nome 
+        from integrantes i
+        where i.id_integrante = $1",
+    )
+    .bind(id_integrante)
+    .fetch_one(db)
+    .await
+    .unwrap();
+    u.get("nome")
+}
+
+pub async fn verifica_credenciais(cred: Credenciais, db: &Pool<Postgres>) -> Option<i32> {
+    println!("{:?}", cred);
+    match sqlx::query(r"
+        select i.id_integrante 
+        from integrantes i
+        where i.email = $1
+        and i.senha = $2",
+    )
+    .bind(cred.email)
+    .bind(cred.senha)
+    .fetch_optional(db)
+    .await
+    .unwrap()
+    {
+        Some(row) => Some(row.get("id_integrante")),
+        None => None,
+    }
+}
+
+pub async fn criar_usuario_db(criar_usuario: CriarUsuario, db: &Pool<Postgres>) {
+    let _ = sqlx::query(
+        r"
+        insert into integrantes (email, nome, sobrenome, senha)
+        values ($1, $2, $3, $4)",
+    )
+    .bind(criar_usuario.email)
+    .bind(criar_usuario.nome)
+    .bind(criar_usuario.sobrenome)
+    .bind(criar_usuario.senha)
+    .execute(db)
+    .await
+    .unwrap();
+}
+
+pub async fn insere_presenca(id_integrante: i32, id_oficina: i32, db: &Pool<Postgres>) {
+    let _ = sqlx::query(
+        r"
+        insert into presenca (id_integrante, id_oficina)
+        values ($1, $2)",
+    )
+    .bind(id_integrante)
+    .bind(id_oficina)
+    .execute(db)
+    .await
+    .unwrap();
+}
+
+pub async fn deleta_presenca(id_integrante: i32, id_oficina: i32, db: &Pool<Postgres>) {
+    let _ = sqlx::query(
+        r"
+        delete from presenca p
+        where p.id_integrante = $1
+        and p.id_oficina = $2",
+    )
+    .bind(id_integrante)
+    .bind(id_oficina)
+    .execute(db)
+    .await
+    .unwrap();
 }

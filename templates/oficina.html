@@ -4,14 +4,25 @@
         <h1>{{ oficina.titulo }}: {{ oficina.data_oficina }}</h1>
         <h2>{{ oficina.nome_autor }}</h2>
         <a href="{{ oficina.link_gravacao }}">Link da gravação</a>
+        <h3>Problemas: </h3>
         {% for problema in oficina.problemas %}
         <a href="{{ problema.link_problema }}">{{ problema.alias }}</a>
         {% endfor %}
         {% if login %}
             {% if presente %}
-                <a href="/presenca/{{ oficina.id_oficina }}">Remover presença</a>
+            <form method="post" class="inline">
+              <input type="hidden" name="extra_submit_param" value="extra_submit_value">
+              <button type="submit">
+                Remover presença
+              </button>
+            </form>
             {% else %}
-                <a href="/presenca/{{ oficina.id_oficina }}">Presença</a>
+            <form method="post" class="inline">
+              <input type="hidden" name="extra_submit_param" value="extra_submit_value">
+              <button type="submit">
+                Presença
+              </button>
+            </form>
             {% endif %}
         {% endif %}
     </div>
