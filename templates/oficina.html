@@ -5,7 +5,11 @@
         <h2>{{ oficina.nome_autor }}</h2>
         <a href="{{ oficina.link_gravacao }}">Link da gravação</a>
         {% if login %}
-            <a href="/presenca/{{ oficina.id_oficina }}">presença</a>
+            {% if presente %}
+                <a href="/presenca/{{ oficina.id_oficina }}">Remover presença</a>
+            {% else %}
+                <a href="/presenca/{{ oficina.id_oficina }}">Presença</a>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock content %}

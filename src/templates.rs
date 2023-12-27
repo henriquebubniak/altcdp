@@ -35,4 +35,5 @@ pub struct InscrevaSeTemplate {}
 pub struct OficinaTemplate<'a> {
     pub oficina: &'a OficinaPreview,
     pub login: bool,
+    pub presente: bool,
 }

@@ -58,7 +58,7 @@ pub async fn oficinas_preview(State(state): State<AppState>) -> Html<String> {
 pub async fn oficina_detail(
     State(state): State<AppState>,
     session: Session,
-    Path(id): Path<i32>,
+    Path(id_oficina): Path<i32>,
 ) -> Html<String> {
     let oficinas: Vec<OficinaPreview> = sqlx::query_as(
         r"
@@ -67,25 +67,49 @@ pub async fn oficina_detail(
         where o.id_autor = i.id_integrante
         and o.id_oficina = $1",
     )
-    .bind(id)
+    .bind(id_oficina)
     .fetch_all(&state.db)
     .await
     .unwrap();
 
-    let html = match session.get::<Login>(LOGIN_KEY).await.unwrap() {
-        Some(l) => match l.id {
-            Some(_) => OficinaTemplate {
-                oficina: &oficinas[0],
-                login: true,
-            },
-            None => OficinaTemplate {
-                oficina: &oficinas[0],
-                login: false,
-            },
-        },
-        None => OficinaTemplate {
+    let html = match session
+        .get::<Login>(LOGIN_KEY)
+        .await
+        .unwrap()
+        .unwrap_or(Login { id: None })
+    {
+        Login {
+            id: Some(id_integrante),
+        } => {
+            let presenca = sqlx::query(
+                r"
+                select *
+                from presenca p
+                where p.id_integrante = $1
+                and p.id_oficina = $2",
+            )
+            .bind(id_integrante)
+            .bind(id_oficina)
+            .fetch_all(&state.db)
+            .await
+            .unwrap();
+            match presenca.len() {
+                0 => OficinaTemplate {
+                    oficina: &oficinas[0],
+                    login: true,
+                    presente: false,
+                },
+                _ => OficinaTemplate {
+                    oficina: &oficinas[0],
+                    login: true,
+                    presente: true,
+                },
+            }
+        }
+        Login { id: None } => OficinaTemplate {
             oficina: &oficinas[0],
             login: false,
+            presente: false,
         },
     };
     Html(html.render().unwrap())
@@ -197,18 +221,48 @@ pub async fn presenca(
         .unwrap_or(Login { id: None });
     match login.id {
         Some(id_usuario) => {
-            let _ = sqlx::query(
+
+            let presenca = sqlx::query(
                 r"
-                insert into presenca (id_integrante, id_oficina)
-                values ($1, $2)",
+                select *
+                from presenca p
+                where p.id_integrante = $1
+                and p.id_oficina = $2",
             )
             .bind(id_usuario)
             .bind(id_oficina)
-            .execute(&state.db)
+            .fetch_all(&state.db)
             .await
             .unwrap();
-            println!("Sucesso");
-            Redirect::to(&format!("/oficinas/{id_oficina}"))
+            match presenca.len() {
+                0 => {
+                    let _ = sqlx::query(
+                        r"
+                        insert into presenca (id_integrante, id_oficina)
+                        values ($1, $2)",
+                    )
+                    .bind(id_usuario)
+                    .bind(id_oficina)
+                    .execute(&state.db)
+                    .await
+                    .unwrap();
+                    Redirect::to(&format!("/oficinas/{id_oficina}"))
+                }
+                _ => {
+                    let _ = sqlx::query(
+                        r"
+                        delete from presenca p
+                        where p.id_integrante = $1
+                        and p.id_oficina = $2",
+                    )
+                    .bind(id_usuario)
+                    .bind(id_oficina)
+                    .execute(&state.db)
+                    .await
+                    .unwrap();
+                    Redirect::to(&format!("/oficinas/{id_oficina}"))
+                }
+            }
         }
         None => Redirect::to("/login"),
     }
