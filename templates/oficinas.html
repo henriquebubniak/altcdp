@@ -6,5 +6,8 @@
             <h2>{{ oficina.nome_autor }}</h2>
             <a href="{{ oficina.link_gravacao }}">Link da gravação</a>
         </div>
+        {% for problema in oficina.problemas %}
+            <a href="{{ problema.link_problema }}">{{ problema.alias }}</a>
+        {% endfor %}
     {% endfor %}
 {% endblock content %}

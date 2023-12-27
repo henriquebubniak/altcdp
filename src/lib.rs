@@ -9,7 +9,7 @@ use axum::{
     response::{Html, Redirect},
     Form,
 };
-use queries::{get_oficina_preview_one, get_oficina_preview_vec};
+use queries::get_oficina_preview;
 use serde::{Deserialize, Serialize};
 use sqlx::{prelude::FromRow, Pool, Postgres, Row};
 use tower_sessions::Session;
@@ -51,7 +51,7 @@ pub struct Problema{
 }
 
 pub async fn oficinas_preview(State(state): State<AppState>) -> Html<String> {
-    let oficinas = get_oficina_preview_vec(&state.db).await;
+    let oficinas = get_oficina_preview(&state.db).await;
     let html = OficinasTemplate { oficinas };
     Html(html.render().unwrap())
 }
@@ -61,7 +61,7 @@ pub async fn oficina_detail(
     session: Session,
     Path(id_oficina): Path<i32>,
 ) -> Html<String> {
-    let oficina = get_oficina_preview_one(&state.db).await;
+    let oficinas = get_oficina_preview(&state.db).await;
     let html = match session
         .get::<Login>(LOGIN_KEY)
         .await
@@ -85,19 +85,19 @@ pub async fn oficina_detail(
             .unwrap();
             match presenca.len() {
                 0 => OficinaTemplate {
-                    oficina,
+                    oficina: &oficinas[0],
                     login: true,
                     presente: false,
                 },
                 _ => OficinaTemplate {
-                    oficina,
+                    oficina: &oficinas[0],
                     login: true,
                     presente: true,
                 },
             }
         }
         Login { id: None } => OficinaTemplate {
-            oficina,
+            oficina: &oficinas[0],
             login: false,
             presente: false,
         },

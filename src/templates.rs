@@ -35,8 +35,8 @@ pub struct InscrevaSeTemplate {}
 
 #[derive(Template)]
 #[template(path = "oficina.html")]
-pub struct OficinaTemplate {
-    pub oficina: OficinaPreview,
+pub struct OficinaTemplate<'a> {
+    pub oficina: &'a OficinaPreview,
     pub login: bool,
     pub presente: bool,
 }
