@@ -1,3 +1,7 @@
+use crate::queries::{
+    criar_usuario_db, deleta_presenca, get_nome, get_oficinas, insere_presenca, presente,
+    verifica_credenciais,
+};
 use askama::Template;
 use axum::{
     debug_handler,
@@ -5,14 +9,10 @@ use axum::{
     response::{Html, Redirect},
     Form,
 };
-use crate::queries::{
-    criar_usuario_db, deleta_presenca, get_nome, get_oficinas, insere_presenca, presente,
-    verifica_credenciais,
-};
+pub use structs::{AppState, Credenciais, CriarUsuario, Login};
 use templates::{
     IndexTemplate, InscrevaSeTemplate, LoginTemplate, OficinaTemplate, OficinasTemplate,
 };
-pub use structs::{AppState, Login, Credenciais, CriarUsuario};
 use tower_sessions::Session;
 
 mod queries;

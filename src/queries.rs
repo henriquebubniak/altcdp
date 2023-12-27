@@ -1,4 +1,4 @@
-use sqlx::{Pool, Postgres, Row, types::chrono::NaiveDate};
+use sqlx::{types::chrono::NaiveDate, Pool, Postgres, Row};
 
 use crate::structs::{Credenciais, CriarUsuario, OficinaPreview, Problema};
 
@@ -27,9 +27,11 @@ pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
         let sobrenome: String = row.get("sobrenome");
         let mut nome_autor: String = row.get("nome");
         nome_autor.push(' ');
-        nome_autor.push_str(&sobrenome);
-        let data_oficina: NaiveDate = row.get("data_oficina");
-        let data_oficina = data_oficina.format("%d/%m/%Y").to_string();
+        nome_autor = nome_autor + &sobrenome;
+        let data_oficina = row
+            .get::<NaiveDate, &str>("data_oficina")
+            .format("%d/%m/%Y")
+            .to_string();
         let oficina_pre = OficinaPreview {
             titulo: row.get("titulo"),
             id_oficina: row.get("id_oficina"),
@@ -74,7 +76,8 @@ pub async fn get_nome(id_integrante: i32, db: &Pool<Postgres>) -> String {
 
 pub async fn verifica_credenciais(cred: Credenciais, db: &Pool<Postgres>) -> Option<i32> {
     println!("{:?}", cred);
-    match sqlx::query(r"
+    sqlx::query(
+        r"
         select i.id_integrante 
         from integrantes i
         where i.email = $1
@@ -85,10 +88,7 @@ pub async fn verifica_credenciais(cred: Credenciais, db: &Pool<Postgres>) -> Opt
     .fetch_optional(db)
     .await
     .unwrap()
-    {
-        Some(row) => Some(row.get("id_integrante")),
-        None => None,
-    }
+    .map(|row| row.get("id_integrante"))
 }
 
 pub async fn criar_usuario_db(criar_usuario: CriarUsuario, db: &Pool<Postgres>) {
