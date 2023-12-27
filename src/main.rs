@@ -32,7 +32,7 @@ async fn main() {
 
     let state = AppState { db: pool };
     if std::env::var("RUST_LOG").is_err() {
-        std::env::set_var("RUST_LOG", format!("debug,hyper=info,mio=info"))
+        std::env::set_var("RUST_LOG", "debug,hyper=info,mio=info")
     }
     tracing_subscriber::fmt::init();
     let app = Router::new()

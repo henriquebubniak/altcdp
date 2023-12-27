@@ -1,5 +1,6 @@
 use crate::templates::{
-    IndexTemplate, InscrevaSeTemplate, LoginTemplate, OficinaPreview, OficinasTemplate, OficinaTemplate
+    IndexTemplate, InscrevaSeTemplate, LoginTemplate, OficinaPreview, OficinaTemplate,
+    OficinasTemplate,
 };
 use askama::Template;
 use axum::{
@@ -54,7 +55,11 @@ pub async fn oficinas_preview(State(state): State<AppState>) -> Html<String> {
     Html(html.render().unwrap())
 }
 
-pub async fn oficina_detail(State(state): State<AppState>, session: Session, Path(id): Path<i32>) -> Html<String> {
+pub async fn oficina_detail(
+    State(state): State<AppState>,
+    session: Session,
+    Path(id): Path<i32>,
+) -> Html<String> {
     let oficinas: Vec<OficinaPreview> = sqlx::query_as(
         r"
         select o.titulo, o.id_oficina, o.link_gravacao, i.nome nome_autor, o.data_oficina 
@@ -69,46 +74,45 @@ pub async fn oficina_detail(State(state): State<AppState>, session: Session, Pat
 
     let html = match session.get::<Login>(LOGIN_KEY).await.unwrap() {
         Some(l) => match l.id {
-            Some(_) => OficinaTemplate { 
+            Some(_) => OficinaTemplate {
                 oficina: &oficinas[0],
                 login: true,
             },
-            None => OficinaTemplate { 
+            None => OficinaTemplate {
                 oficina: &oficinas[0],
                 login: false,
-            }
+            },
         },
-        None => OficinaTemplate { 
+        None => OficinaTemplate {
             oficina: &oficinas[0],
             login: false,
-        }
+        },
     };
     Html(html.render().unwrap())
 }
 
 pub async fn index(State(estado): State<AppState>, session: Session) -> Html<String> {
-    let login = session.get::<Login>(LOGIN_KEY).await.unwrap();
-    let html = match login {
-        None => IndexTemplate { login: None },
-        Some(l) => {
-            match l.id {
-                Some(id) => {
-                    let u = sqlx::query(
-                        r"
-                        select nome 
-                        from integrantes i
-                        where i.id_integrante = $1",
-                        )
-                        .bind(id)
-                        .fetch_all(&estado.db)
-                        .await
-                        .unwrap();
-                    let u: String = u[0].get("nome");
-                    IndexTemplate { login: Some(u) }
-                }
-                None => IndexTemplate { login: None }
-            }
+    let login = session
+        .get::<Login>(LOGIN_KEY)
+        .await
+        .unwrap()
+        .unwrap_or(Login { id: None });
+    let html = match login.id {
+        Some(id) => {
+            let u = sqlx::query(
+                r"
+                select nome 
+                from integrantes i
+                where i.id_integrante = $1",
+            )
+            .bind(id)
+            .fetch_all(&estado.db)
+            .await
+            .unwrap();
+            let u: String = u[0].get("nome");
+            IndexTemplate { login: Some(u) }
         }
+        None => IndexTemplate { login: None },
     };
     Html(html.render().unwrap())
 }
@@ -136,9 +140,7 @@ pub async fn verifica_login(
     .unwrap();
     match user.len() {
         0 => {
-            let login = Login {
-                id: None,
-            };
+            let login = Login { id: None };
             session.insert(LOGIN_KEY, login).await.unwrap();
             Redirect::to("/login")
         }
@@ -183,28 +185,31 @@ pub async fn criar_usuario(
     Redirect::to("/")
 }
 
-pub async fn presenca(State(state): State<AppState>, session: Session, Path(id_oficina): Path<i32>) -> Redirect {
-    if let Some(login) = session.get::<Login>(LOGIN_KEY).await.unwrap() {
-        match login.id {
-            Some(id_usuario) => {
-
-                let _ = sqlx::query(
-                    r"
-                    insert into presenca (id_integrante, id_oficina)
-                    values ($1, $2)",
-                )
-                    .bind(id_usuario)
-                    .bind(id_oficina)
-                    .execute(&state.db)
-                    .await
-                    .unwrap();
-                println!("Sucesso");
-                return Redirect::to(&format!("/oficinas/{id_oficina}"))
-            },
-            None => {
-                return Redirect::to("/login")
-            }
+pub async fn presenca(
+    State(state): State<AppState>,
+    session: Session,
+    Path(id_oficina): Path<i32>,
+) -> Redirect {
+    let login = session
+        .get::<Login>(LOGIN_KEY)
+        .await
+        .unwrap()
+        .unwrap_or(Login { id: None });
+    match login.id {
+        Some(id_usuario) => {
+            let _ = sqlx::query(
+                r"
+                insert into presenca (id_integrante, id_oficina)
+                values ($1, $2)",
+            )
+            .bind(id_usuario)
+            .bind(id_oficina)
+            .execute(&state.db)
+            .await
+            .unwrap();
+            println!("Sucesso");
+            Redirect::to(&format!("/oficinas/{id_oficina}"))
         }
+        None => Redirect::to("/login"),
     }
-    return Redirect::to("/login");
 }
