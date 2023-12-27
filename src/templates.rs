@@ -29,3 +29,10 @@ pub struct LoginTemplate {}
 #[derive(Template)]
 #[template(path = "inscreva_se.html")]
 pub struct InscrevaSeTemplate {}
+
+#[derive(Template)]
+#[template(path = "oficina.html")]
+pub struct OficinaTemplate<'a> {
+    pub oficina: &'a OficinaPreview,
+    pub login: bool,
+}

@@ -1,5 +1,5 @@
 use altcdp::{
-    criar_usuario, index, inscreva_se, login, logout, oficina_detail, oficinas_preview,
+    criar_usuario, index, inscreva_se, login, logout, oficina_detail, oficinas_preview, presenca,
     verifica_login, AppState,
 };
 use axum::{
@@ -44,6 +44,7 @@ async fn main() {
         .route("/logout", get(logout))
         .route("/inscreva_se", get(inscreva_se))
         .route("/inscreva_se", post(criar_usuario))
+        .route("/presenca/:id", get(presenca))
         .layer(session_service)
         .with_state(state);
     println!("Backend listening at 0.0.0.0:8081");

@@ -1,5 +1,5 @@
 use crate::templates::{
-    IndexTemplate, InscrevaSeTemplate, LoginTemplate, OficinaPreview, OficinasTemplate,
+    IndexTemplate, InscrevaSeTemplate, LoginTemplate, OficinaPreview, OficinasTemplate, OficinaTemplate
 };
 use askama::Template;
 use axum::{
@@ -54,7 +54,7 @@ pub async fn oficinas_preview(State(state): State<AppState>) -> Html<String> {
     Html(html.render().unwrap())
 }
 
-pub async fn oficina_detail(State(state): State<AppState>, Path(id): Path<i32>) -> Html<String> {
+pub async fn oficina_detail(State(state): State<AppState>, session: Session, Path(id): Path<i32>) -> Html<String> {
     let oficinas: Vec<OficinaPreview> = sqlx::query_as(
         r"
         select o.titulo, o.id_oficina, o.link_gravacao, i.nome nome_autor, o.data_oficina 
@@ -66,7 +66,23 @@ pub async fn oficina_detail(State(state): State<AppState>, Path(id): Path<i32>) 
     .fetch_all(&state.db)
     .await
     .unwrap();
-    let html = OficinasTemplate { oficinas };
+
+    let html = match session.get::<Login>(LOGIN_KEY).await.unwrap() {
+        Some(l) => match l.id {
+            Some(_) => OficinaTemplate { 
+                oficina: &oficinas[0],
+                login: true,
+            },
+            None => OficinaTemplate { 
+                oficina: &oficinas[0],
+                login: false,
+            }
+        },
+        None => OficinaTemplate { 
+            oficina: &oficinas[0],
+            login: false,
+        }
+    };
     Html(html.render().unwrap())
 }
 
@@ -165,4 +181,30 @@ pub async fn criar_usuario(
     .await
     .unwrap();
     Redirect::to("/")
+}
+
+pub async fn presenca(State(state): State<AppState>, session: Session, Path(id_oficina): Path<i32>) -> Redirect {
+    if let Some(login) = session.get::<Login>(LOGIN_KEY).await.unwrap() {
+        match login.id {
+            Some(id_usuario) => {
+
+                let _ = sqlx::query(
+                    r"
+                    insert into presenca (id_integrante, id_oficina)
+                    values ($1, $2)",
+                )
+                    .bind(id_usuario)
+                    .bind(id_oficina)
+                    .execute(&state.db)
+                    .await
+                    .unwrap();
+                println!("Sucesso");
+                return Redirect::to(&format!("/oficinas/{id_oficina}"))
+            },
+            None => {
+                return Redirect::to("/login")
+            }
+        }
+    }
+    return Redirect::to("/login");
 }

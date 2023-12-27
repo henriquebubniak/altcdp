@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <div>
+        <h1>{{ oficina.titulo }}: {{ oficina.data_oficina }}</h1>
+        <h2>{{ oficina.nome_autor }}</h2>
+        <a href="{{ oficina.link_gravacao }}">Link da gravação</a>
+        {% if login %}
+            <a href="/presenca/{{ oficina.id_oficina }}">presença</a>
+        {% endif %}
+    </div>
+{% endblock content %}
