@@ -16,17 +16,17 @@ values ('Programação Dinamica','googlemeet.com', 2, '2023-12-13');
 insert into oficinas (titulo, link_gravacao, id_autor, data_oficina)
 values ('Algoritmos gulosos','googlemeet.com', 2, '2023-12-13');
 
-insert into problemas (id_oficina, link_problema)
-values (1, 'atcoder.com');
+insert into problemas (id_oficina, link_problema, alias)
+values (1, 'atcoder.com', 'ATC123A');
 
-insert into problemas (id_oficina, link_problema)
-values (1, 'codeforces.com');
+insert into problemas (id_oficina, link_problema, alias)
+values (1, 'codeforces.com', 'CF123B');
 
-insert into problemas (id_oficina, link_problema)
-values (2, 'timus.com');
+insert into problemas (id_oficina, link_problema, alias)
+values (2, 'timus.com', 'TI123C');
 
-insert into problemas (id_oficina, link_problema)
-values (2, 'beecrowd.com');
+insert into problemas (id_oficina, link_problema, alias)
+values (2, 'beecrowd.com', 'BC123D');
 
 insert into presenca (id_integrante, id_oficina)
 values (1, 1);

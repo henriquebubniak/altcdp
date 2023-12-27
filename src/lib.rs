@@ -9,9 +9,12 @@ use axum::{
     response::{Html, Redirect},
     Form,
 };
+use queries::{get_oficina_preview_one, get_oficina_preview_vec};
 use serde::{Deserialize, Serialize};
-use sqlx::{Pool, Postgres, Row};
+use sqlx::{prelude::FromRow, Pool, Postgres, Row};
 use tower_sessions::Session;
+
+mod queries;
 
 mod templates;
 
@@ -41,16 +44,14 @@ pub struct Credenciais {
     senha: String,
 }
 
+#[derive(FromRow, Serialize, Deserialize, Debug)]
+pub struct Problema{
+    link_problema: String,
+    alias: String,
+}
+
 pub async fn oficinas_preview(State(state): State<AppState>) -> Html<String> {
-    let oficinas: Vec<OficinaPreview> = sqlx::query_as(
-        r"
-        select o.titulo, o.id_oficina, o.link_gravacao, i.nome nome_autor, o.data_oficina 
-        from oficinas o, integrantes i
-        where o.id_autor = i.id_integrante",
-    )
-    .fetch_all(&state.db)
-    .await
-    .unwrap();
+    let oficinas = get_oficina_preview_vec(&state.db).await;
     let html = OficinasTemplate { oficinas };
     Html(html.render().unwrap())
 }
@@ -60,18 +61,7 @@ pub async fn oficina_detail(
     session: Session,
     Path(id_oficina): Path<i32>,
 ) -> Html<String> {
-    let oficinas: Vec<OficinaPreview> = sqlx::query_as(
-        r"
-        select o.titulo, o.id_oficina, o.link_gravacao, i.nome nome_autor, o.data_oficina 
-        from oficinas o, integrantes i
-        where o.id_autor = i.id_integrante
-        and o.id_oficina = $1",
-    )
-    .bind(id_oficina)
-    .fetch_all(&state.db)
-    .await
-    .unwrap();
-
+    let oficina = get_oficina_preview_one(&state.db).await;
     let html = match session
         .get::<Login>(LOGIN_KEY)
         .await
@@ -95,19 +85,19 @@ pub async fn oficina_detail(
             .unwrap();
             match presenca.len() {
                 0 => OficinaTemplate {
-                    oficina: &oficinas[0],
+                    oficina,
                     login: true,
                     presente: false,
                 },
                 _ => OficinaTemplate {
-                    oficina: &oficinas[0],
+                    oficina,
                     login: true,
                     presente: true,
                 },
             }
         }
         Login { id: None } => OficinaTemplate {
-            oficina: &oficinas[0],
+            oficina,
             login: false,
             presente: false,
         },
@@ -221,7 +211,6 @@ pub async fn presenca(
         .unwrap_or(Login { id: None });
     match login.id {
         Some(id_usuario) => {
-
             let presenca = sqlx::query(
                 r"
                 select *

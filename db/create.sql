@@ -4,7 +4,7 @@ create table integrantes (
 	email varchar(50),
 	nome varchar(50),
 	sobrenome varchar(50),
-	senha varchar(50),
+	senha varchar(50)
 );
 
 create table oficinas (
@@ -18,13 +18,16 @@ create table oficinas (
 
 create table problemas (
 	id_oficina int,
+	alias varchar(50),
 	link_problema varchar(50),
-	foreign key (id_oficina) references oficinas(id_oficina)	
+	foreign key (id_oficina) references oficinas(id_oficina),
+	primary key (id_oficina, alias)
 );
 
 create table presenca (
 	id_integrante int,
 	id_oficina int,
 	foreign key (id_integrante) references integrantes(id_integrante),
-	foreign key (id_oficina) references oficinas(id_oficina)	
+	foreign key (id_oficina) references oficinas(id_oficina),
+	primary key (id_integrante, id_oficina)
 );

@@ -4,6 +4,9 @@
         <h1>{{ oficina.titulo }}: {{ oficina.data_oficina }}</h1>
         <h2>{{ oficina.nome_autor }}</h2>
         <a href="{{ oficina.link_gravacao }}">Link da gravação</a>
+        {% for problema in oficina.problemas %}
+        <a href="{{ problema.link_problema }}">{{ problema.alias }}</a>
+        {% endfor %}
         {% if login %}
             {% if presente %}
                 <a href="/presenca/{{ oficina.id_oficina }}">Remover presença</a>

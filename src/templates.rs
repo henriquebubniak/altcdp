@@ -1,6 +1,8 @@
 use askama::Template;
 use serde::{Deserialize, Serialize};
 
+use crate::Problema;
+
 #[derive(Template)]
 #[template(path = "oficinas.html")]
 pub struct OficinasTemplate {
@@ -20,6 +22,7 @@ pub struct OficinaPreview {
     pub link_gravacao: String,
     pub nome_autor: String,
     pub data_oficina: String,
+    pub problemas: Vec<Problema>,
 }
 
 #[derive(Template)]
@@ -32,8 +35,8 @@ pub struct InscrevaSeTemplate {}
 
 #[derive(Template)]
 #[template(path = "oficina.html")]
-pub struct OficinaTemplate<'a> {
-    pub oficina: &'a OficinaPreview,
+pub struct OficinaTemplate {
+    pub oficina: OficinaPreview,
     pub login: bool,
     pub presente: bool,
 }
