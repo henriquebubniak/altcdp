@@ -1,17 +1,18 @@
 use crate::queries::{
-    criar_usuario_db, deleta_presenca, get_nome, get_oficinas, insere_presenca, presente,
-    verifica_credenciais, get_perfil,
+    criar_usuario_db, deleta_presenca, get_nome, get_oficinas, get_perfil, get_presencas,
+    insere_presenca, presente, verifica_credenciais,
 };
 use askama::Template;
 use axum::{
     debug_handler,
     extract::{Path, State},
-    response::{Html, Redirect, IntoResponse},
+    response::{Html, IntoResponse, Redirect},
     Form,
 };
 pub use structs::{AppState, Credenciais, CriarUsuario, Login};
 use templates::{
-    IndexTemplate, InscrevaSeTemplate, LoginTemplate, OficinaTemplate, OficinasTemplate, PerfilTemplate
+    IndexTemplate, InscrevaSeTemplate, LoginTemplate, OficinaTemplate, OficinasTemplate,
+    PerfilTemplate,
 };
 use tower_sessions::Session;
 
@@ -139,10 +140,7 @@ pub async fn presenca(
     }
 }
 
-pub async fn perfil(
-    State(estado): State<AppState>,
-    session: Session,
-) -> impl IntoResponse {
+pub async fn perfil(State(estado): State<AppState>, session: Session) -> impl IntoResponse {
     let login = session
         .get::<Login>(LOGIN_KEY)
         .await
@@ -151,8 +149,12 @@ pub async fn perfil(
     let html = match login.id {
         Some(id_integrante) => PerfilTemplate {
             perfil: Some(get_perfil(id_integrante, &estado.db).await),
+            presencas: get_presencas(id_integrante, &estado.db).await,
         },
-        None => PerfilTemplate { perfil: None },
+        None => PerfilTemplate {
+            perfil: None,
+            presencas: vec![],
+        },
     };
     Html(html.render().unwrap())
 }

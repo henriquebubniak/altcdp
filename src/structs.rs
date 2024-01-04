@@ -43,8 +43,14 @@ pub struct Problema {
 
 #[derive(FromRow, Serialize, Deserialize, Debug)]
 pub struct Perfil {
-	pub email: String,
-	pub nome: String,
-	pub sobrenome: String,
-	pub senha: String,
+    pub email: String,
+    pub nome: String,
+    pub sobrenome: String,
+    pub senha: String,
+}
+#[derive(FromRow, Serialize, Deserialize, Debug)]
+pub struct Presenca {
+    pub id_oficina: i32,
+    pub titulo: String,
+    pub data_oficina: String,
 }

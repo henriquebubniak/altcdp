@@ -6,6 +6,14 @@
         <p>Seu email: {{ perfil.email }}</p>
         <p>Sua senha: {{ perfil.senha }}</p>
         <a href="/logout"> Logout </a>
+        <h2> Presenças </h2>
+        {% for presenca in presencas %}
+            <div>
+                <h><a href="/oficinas/{{ presenca.id_oficina }}"> {{ presenca.titulo }} </a></h1>
+                <p><b>Data:</b>  {{ presenca.data_oficina }}</p>
+            </div>
+            <hr>
+        {% endfor %}
     {% when None %}
         <h2> <a href="/login">Login</a></h2>
         <h2><a href="/inscreva_se">Inscreva-se</a></h2>

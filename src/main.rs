@@ -1,5 +1,6 @@
 use altcdp::{
-    criar_usuario, index, inscreva_se, login, logout, oficina_detail, oficinas_preview, presenca, verifica_login, AppState, perfil
+    criar_usuario, index, inscreva_se, login, logout, oficina_detail, oficinas_preview, perfil,
+    presenca, verifica_login, AppState,
 };
 use axum::{
     error_handling::HandleErrorLayer,

@@ -1,6 +1,6 @@
 use sqlx::{types::chrono::NaiveDate, Pool, Postgres, Row};
 
-use crate::structs::{Credenciais, CriarUsuario, OficinaPreview, Problema, Perfil};
+use crate::structs::{Credenciais, CriarUsuario, OficinaPreview, Perfil, Presenca, Problema};
 
 pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
     let mut oficinas = Vec::new();
@@ -134,15 +134,41 @@ pub async fn deleta_presenca(id_integrante: i32, id_oficina: i32, db: &Pool<Post
 }
 
 pub async fn get_perfil(id_integrante: i32, db: &Pool<Postgres>) -> Perfil {
-    let u: Perfil = sqlx::query_as(
+    sqlx::query_as(
         r"
         select i.email, i.nome, i.sobrenome, i.senha
         from integrantes i
-        where i.id_integrante = $1"
+        where i.id_integrante = $1",
     )
     .bind(id_integrante)
     .fetch_one(db)
     .await
+    .unwrap()
+}
+
+pub async fn get_presencas(id_integrante: i32, db: &Pool<Postgres>) -> Vec<Presenca> {
+    let mut presencas = Vec::new();
+    let result = sqlx::query(
+        r"
+        select o.titulo, o.data_oficina, o.id_oficina
+        from oficinas o, presenca p
+        where p.id_integrante = $1
+        and p.id_oficina = o.id_oficina",
+    )
+    .bind(id_integrante)
+    .fetch_all(db)
+    .await
     .unwrap();
-    u
+    for row in result {
+        let data_oficina = row
+            .get::<NaiveDate, &str>("data_oficina")
+            .format("%d/%m/%Y")
+            .to_string();
+        presencas.push(Presenca {
+            data_oficina,
+            titulo: row.get("titulo"),
+            id_oficina: row.get("id_oficina"),
+        });
+    }
+    presencas
 }
