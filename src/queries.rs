@@ -1,6 +1,6 @@
 use sqlx::{types::chrono::NaiveDate, Pool, Postgres, Row};
 
-use crate::structs::{Credenciais, CriarUsuario, OficinaPreview, Problema};
+use crate::structs::{Credenciais, CriarUsuario, OficinaPreview, Problema, Perfil};
 
 pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
     let mut oficinas = Vec::new();
@@ -131,4 +131,18 @@ pub async fn deleta_presenca(id_integrante: i32, id_oficina: i32, db: &Pool<Post
     .execute(db)
     .await
     .unwrap();
+}
+
+pub async fn get_perfil(id_integrante: i32, db: &Pool<Postgres>) -> Perfil {
+    let u: Perfil = sqlx::query_as(
+        r"
+        select i.email, i.nome, i.sobrenome, i.senha
+        from integrantes i
+        where i.id_integrante = $1"
+    )
+    .bind(id_integrante)
+    .fetch_one(db)
+    .await
+    .unwrap();
+    u
 }

@@ -1,6 +1,6 @@
 use askama::Template;
 
-use crate::structs::OficinaPreview;
+use crate::structs::{OficinaPreview, Perfil};
 
 #[derive(Template)]
 #[template(path = "oficinas.html")]
@@ -28,4 +28,10 @@ pub struct OficinaTemplate<'a> {
     pub oficina: &'a OficinaPreview,
     pub login: bool,
     pub presente: bool,
+}
+
+#[derive(Template)]
+#[template(path = "perfil.html")]
+pub struct PerfilTemplate {
+    pub perfil: Option<Perfil>,
 }

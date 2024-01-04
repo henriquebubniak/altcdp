@@ -40,3 +40,11 @@ pub struct Problema {
     pub link_problema: String,
     pub alias: String,
 }
+
+#[derive(FromRow, Serialize, Deserialize, Debug)]
+pub struct Perfil {
+	pub email: String,
+	pub nome: String,
+	pub sobrenome: String,
+	pub senha: String,
+}
