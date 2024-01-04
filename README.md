@@ -12,3 +12,8 @@
 3. Inicie o servidor com o comando "cargo run"
 
 4. Acesse o site em localhost:8081
+
+## To do
+. adicionar busca a pagina de oficinas
+. adicionar Markdown às oficinas
+. possibilitar a criacao de oficinas
