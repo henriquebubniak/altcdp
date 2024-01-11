@@ -16,4 +16,4 @@
 
 - Adicionar busca à pagina de oficinas
 - Adicionar Markdown às oficinas
-- Possibilitar a criação de oficinas
+- Adicionar campo de problemas na criação de oficinas
