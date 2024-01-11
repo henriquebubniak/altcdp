@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use sqlx::{prelude::FromRow, Pool, Postgres, types::chrono::NaiveDate};
+use sqlx::{prelude::FromRow, types::chrono::NaiveDate, Pool, Postgres};
 
 #[derive(Serialize, Deserialize, Debug, sqlx::FromRow)]
 pub struct OficinaPreview {
@@ -57,13 +57,16 @@ pub struct Presenca {
 
 pub struct CriarOficina {
     pub titulo: String,
-	pub link_gravacao: Option<String>,
-	pub id_autor: i32,
-	pub data_oficina: NaiveDate,
+    pub link_gravacao: Option<String>,
+    pub id_autor: i32,
+    pub data_oficina: NaiveDate,
+    pub problemas: Vec<Problema>,
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct CriarOficinaForm {
     pub titulo: String,
-	pub link_gravacao: Option<String>,
+    pub link_gravacao: Option<String>,
+    pub problemas_alias: Option<String>,
+    pub problemas_links: Option<String>,
 }

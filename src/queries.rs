@@ -1,6 +1,9 @@
 use sqlx::{types::chrono::NaiveDate, Pool, Postgres, Row};
 
-use crate::{structs::{Credenciais, CriarUsuario, OficinaPreview, Perfil, Presenca, Problema}, CriarOficina};
+use crate::{
+    structs::{Credenciais, CriarUsuario, OficinaPreview, Perfil, Presenca, Problema},
+    CriarOficina,
+};
 
 pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
     let mut oficinas = Vec::new();
@@ -43,6 +46,46 @@ pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
         oficinas.push(oficina_pre);
     }
     oficinas
+}
+
+pub async fn get_oficina(db: &Pool<Postgres>, id_oficina: i32) -> OficinaPreview {
+    let row = sqlx::query(
+        r"
+        select o.titulo, o.link_gravacao, i.nome, i.sobrenome , o.data_oficina 
+        from oficinas o, integrantes i
+        where o.id_autor = i.id_integrante
+        and o.id_oficina = $1",
+    )
+    .bind(id_oficina)
+    .fetch_one(db)
+    .await
+    .unwrap();
+    let problemas: Vec<Problema> = sqlx::query_as(
+        r"
+        select p.link_problema, p.alias
+        from problemas p
+        where p.id_oficina = $1",
+    )
+    .bind(id_oficina)
+    .fetch_all(db)
+    .await
+    .unwrap();
+    let sobrenome: String = row.get("sobrenome");
+    let mut nome_autor: String = row.get("nome");
+    nome_autor.push(' ');
+    nome_autor = nome_autor + &sobrenome;
+    let data_oficina = row
+        .get::<NaiveDate, &str>("data_oficina")
+        .format("%d/%m/%Y")
+        .to_string();
+    OficinaPreview {
+        titulo: row.get("titulo"),
+        id_oficina,
+        link_gravacao: row.get("link_gravacao"),
+        nome_autor,
+        data_oficina,
+        problemas,
+    }
 }
 
 pub async fn presente(id_integrante: i32, id_oficina: i32, db: &Pool<Postgres>) -> bool {
@@ -174,16 +217,46 @@ pub async fn get_presencas(id_integrante: i32, db: &Pool<Postgres>) -> Vec<Prese
 }
 
 pub async fn criar_oficina_db(criar_oficina: CriarOficina, db: &Pool<Postgres>) {
-    let _ = sqlx::query(
+    sqlx::query(
         r"
         insert into oficinas (titulo, id_autor, data_oficina, link_gravacao)
         values ($1, $2, $3, $4)",
+    )
+    .bind(criar_oficina.titulo.clone())
+    .bind(criar_oficina.id_autor)
+    .bind(criar_oficina.data_oficina)
+    .bind(criar_oficina.link_gravacao.clone())
+    .execute(db)
+    .await
+    .unwrap();
+    let id_oficina = sqlx::query(
+        r"
+        select id_oficina
+        from oficinas
+        where titulo = $1
+        and id_autor = $2
+        and data_oficina = $3
+        and link_gravacao = $4",
     )
     .bind(criar_oficina.titulo)
     .bind(criar_oficina.id_autor)
     .bind(criar_oficina.data_oficina)
     .bind(criar_oficina.link_gravacao)
-    .execute(db)
+    .fetch_one(db)
     .await
     .unwrap();
+    let id_oficina: i32 = id_oficina.get("id_oficina");
+    for problema in criar_oficina.problemas {
+        sqlx::query(
+            r"
+                insert into problemas (id_oficina, alias, link_problema)
+                values ($1, $2, $3)",
+        )
+        .bind(id_oficina)
+        .bind(problema.alias)
+        .bind(problema.link_problema)
+        .execute(db)
+        .await
+        .unwrap();
+    }
 }
