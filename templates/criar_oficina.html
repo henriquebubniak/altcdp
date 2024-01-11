@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="post">
+
+<label for="titulo"> Titulo: </label>
+<input type="text" id="titulo" name="titulo" required />
+
+<label for="link_gravacao"> Link gravação: </label>
+<input type="text" id="link_gravacao" name="link_gravacao" />
+
+<button type="submit">Enviar</button>
+</form>
+
+{% endblock content %}

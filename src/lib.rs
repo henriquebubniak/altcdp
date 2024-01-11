@@ -1,18 +1,19 @@
 use crate::queries::{
     criar_usuario_db, deleta_presenca, get_nome, get_oficinas, get_perfil, get_presencas,
-    insere_presenca, presente, verifica_credenciais,
+    insere_presenca, presente, verifica_credenciais, criar_oficina_db
 };
 use askama::Template;
 use axum::{
     debug_handler,
     extract::{Path, State},
-    response::{Html, IntoResponse, Redirect},
+    response::{Html, IntoResponse, Redirect, Response},
     Form,
 };
-pub use structs::{AppState, Credenciais, CriarUsuario, Login};
+use sqlx::types::chrono::Utc;
+pub use structs::{AppState, Credenciais, CriarUsuario, Login, CriarOficinaForm, CriarOficina};
 use templates::{
     IndexTemplate, InscrevaSeTemplate, LoginTemplate, OficinaTemplate, OficinasTemplate,
-    PerfilTemplate,
+    PerfilTemplate, CriarOficinaTemplate,
 };
 use tower_sessions::Session;
 
@@ -116,6 +117,32 @@ pub async fn criar_usuario(
     Redirect::to("/")
 }
 
+#[debug_handler]
+pub async fn criar_oficina_form(
+    session: Session,
+    State(state): State<AppState>,
+    Form(criar_oficina_form): Form<CriarOficinaForm>,
+) -> Redirect {
+    let login = session
+        .get::<Login>(LOGIN_KEY)
+        .await
+        .unwrap()
+        .unwrap_or(Login { id: None });
+    match login.id {
+        Some(id_autor) => {
+            let criar_oficina = CriarOficina {
+                titulo: criar_oficina_form.titulo,
+                link_gravacao: criar_oficina_form.link_gravacao,
+                id_autor,
+                data_oficina: Utc::now().date_naive(),
+            };
+            criar_oficina_db(criar_oficina, &state.db).await;
+            Redirect::to("/oficinas")
+        }
+        None => Redirect::to("/login")
+    }
+}
+
 pub async fn presenca(
     State(state): State<AppState>,
     session: Session,
@@ -140,21 +167,35 @@ pub async fn presenca(
     }
 }
 
-pub async fn perfil(State(estado): State<AppState>, session: Session) -> impl IntoResponse {
+pub async fn perfil(State(estado): State<AppState>, session: Session) -> Response {
     let login = session
         .get::<Login>(LOGIN_KEY)
         .await
         .unwrap()
         .unwrap_or(Login { id: None });
-    let html = match login.id {
-        Some(id_integrante) => PerfilTemplate {
-            perfil: Some(get_perfil(id_integrante, &estado.db).await),
-            presencas: get_presencas(id_integrante, &estado.db).await,
+    match login.id {
+        Some(id_integrante) => {
+            let html = PerfilTemplate {
+                perfil: Some(get_perfil(id_integrante, &estado.db).await),
+                presencas: get_presencas(id_integrante, &estado.db).await,
+            };
+            Html(html.render().unwrap()).into_response()
         },
-        None => PerfilTemplate {
-            perfil: None,
-            presencas: vec![],
-        },
-    };
-    Html(html.render().unwrap())
+        None => Redirect::to("/login").into_response()
+    }
+}
+
+pub async fn criar_oficina(session: Session) -> impl IntoResponse {
+    let login = session
+        .get::<Login>(LOGIN_KEY)
+        .await
+        .unwrap()
+        .unwrap_or(Login { id: None });
+    match login.id {
+        Some(_) => {
+            let html = CriarOficinaTemplate {};
+            Html(html.render().unwrap()).into_response()
+        }
+        None => Redirect::to("/login").into_response()
+    }
 }

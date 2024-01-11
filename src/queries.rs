@@ -1,6 +1,6 @@
 use sqlx::{types::chrono::NaiveDate, Pool, Postgres, Row};
 
-use crate::structs::{Credenciais, CriarUsuario, OficinaPreview, Perfil, Presenca, Problema};
+use crate::{structs::{Credenciais, CriarUsuario, OficinaPreview, Perfil, Presenca, Problema}, CriarOficina};
 
 pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
     let mut oficinas = Vec::new();
@@ -171,4 +171,19 @@ pub async fn get_presencas(id_integrante: i32, db: &Pool<Postgres>) -> Vec<Prese
         });
     }
     presencas
+}
+
+pub async fn criar_oficina_db(criar_oficina: CriarOficina, db: &Pool<Postgres>) {
+    let _ = sqlx::query(
+        r"
+        insert into oficinas (titulo, id_autor, data_oficina, link_gravacao)
+        values ($1, $2, $3, $4)",
+    )
+    .bind(criar_oficina.titulo)
+    .bind(criar_oficina.id_autor)
+    .bind(criar_oficina.data_oficina)
+    .bind(criar_oficina.link_gravacao)
+    .execute(db)
+    .await
+    .unwrap();
 }

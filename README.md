@@ -10,10 +10,10 @@
 1. Execute o comando em docker_command.txt para criar o container com o banco de dados.
 2. Conecte-se ao banco de dados como preferir, e execute os scripts create.sql e populate.sql para criar as tabelas e popular o banco de dados.
 3. Inicie o servidor com o comando "cargo run"
-
 4. Acesse o site em localhost:8081
 
 ## To do
-- adicionar busca a pagina de oficinas
-- adicionar Markdown às oficinas
-- possibilitar a criacao de oficinas
+
+- Adicionar busca à pagina de oficinas
+- Adicionar Markdown às oficinas
+- Possibilitar a criação de oficinas

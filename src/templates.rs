@@ -36,3 +36,7 @@ pub struct PerfilTemplate {
     pub perfil: Option<Perfil>,
     pub presencas: Vec<Presenca>,
 }
+
+#[derive(Template)]
+#[template(path = "criar_oficina.html")]
+pub struct CriarOficinaTemplate {}
