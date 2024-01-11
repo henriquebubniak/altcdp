@@ -2,15 +2,9 @@ use altcdp::{
     criar_oficina, criar_oficina_form, criar_usuario, index, inscreva_se, login, logout,
     oficina_detail, oficinas_preview, perfil, presenca, verifica_login, AppState,
 };
-use axum::{
-    error_handling::HandleErrorLayer,
-    http::StatusCode,
-    routing::{get, post, Router},
-    BoxError,
-};
+use axum::routing::{get, post, Router};
 use sqlx::{Pool, Postgres};
 use time::Duration;
-use tower::ServiceBuilder;
 use tower_sessions::{Expiry, MemoryStore, SessionManagerLayer};
 
 #[tokio::main]
@@ -20,15 +14,11 @@ async fn main() {
         .unwrap();
 
     let session_store = MemoryStore::default();
-    let session_service = ServiceBuilder::new()
-        .layer(HandleErrorLayer::new(|_: BoxError| async {
-            StatusCode::BAD_REQUEST
-        }))
-        .layer(
-            SessionManagerLayer::new(session_store)
-                .with_secure(false)
-                .with_expiry(Expiry::OnInactivity(Duration::hours(2))),
-        );
+    let session_expiry = Expiry::OnInactivity(Duration::hours(1));
+    let session_service = SessionManagerLayer::new(session_store)
+        .with_name("user")
+        .with_secure(false)
+        .with_expiry(session_expiry);
 
     let state = AppState { db: pool };
     if std::env::var("RUST_LOG").is_err() {

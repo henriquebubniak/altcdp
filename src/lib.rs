@@ -65,6 +65,7 @@ pub async fn index(State(estado): State<AppState>, session: Session) -> Html<Str
         .await
         .unwrap()
         .unwrap_or(Login { id: None });
+    println!("{:?}", login);
     let html = match login.id {
         Some(id_integrante) => IndexTemplate {
             login: Some(get_nome(id_integrante, &estado.db).await),
@@ -86,11 +87,13 @@ pub async fn verifica_login(
 ) -> Redirect {
     match verifica_credenciais(cred, &estado.db).await {
         None => {
+            println!("fail");
             let login = Login { id: None };
             session.insert(LOGIN_KEY, login).await.unwrap();
             Redirect::to("/login")
         }
         Some(id_integrante) => {
+            println!("success");
             let login = Login {
                 id: Some(id_integrante),
             };

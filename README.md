@@ -16,4 +16,4 @@
 
 - Adicionar busca à pagina de oficinas
 - Adicionar Markdown às oficinas
-- Adicionar campo de problemas na criação de oficinas
+- Melhorar o layout dos forms
