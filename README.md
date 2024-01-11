@@ -17,3 +17,4 @@
 - Adicionar busca à pagina de oficinas
 - Adicionar Markdown às oficinas
 - Melhorar o layout dos forms
+- Melhorar segurança das sessões
