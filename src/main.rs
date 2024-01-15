@@ -1,7 +1,4 @@
-use altcdp::{
-    criar_oficina, criar_oficina_form, criar_usuario, index, inscreva_se, login, logout,
-    oficina_detail, oficinas_preview, perfil, presenca, verifica_login, AppState,
-};
+use altcdp::{AppState, handlers::*};
 use axum::routing::{get, post, Router};
 use sqlx::{Pool, Postgres};
 use time::Duration;

@@ -18,3 +18,6 @@
 - Adicionar Markdown às oficinas
 - Melhorar o layout dos forms
 - Melhorar segurança das sessões
+- Melhorar estrutura do código
+- Permitir usuários se voluntariarem
+- Permitir criação de calendário de oficinas

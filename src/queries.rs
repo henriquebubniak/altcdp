@@ -1,9 +1,6 @@
 use sqlx::{types::chrono::NaiveDate, Pool, Postgres, Row};
 
-use crate::{
-    structs::{Credenciais, CriarUsuario, OficinaPreview, Perfil, Presenca, Problema},
-    CriarOficina,
-};
+use crate::structs::*;
 
 pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
     let mut oficinas = Vec::new();
