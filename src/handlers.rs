@@ -1,4 +1,4 @@
-use crate::{templates::*, structs::*, queries::*};
+use crate::{queries::*, structs::*, templates::*};
 use askama::Template;
 use axum::{
     debug_handler,
@@ -8,7 +8,6 @@ use axum::{
 };
 use sqlx::types::chrono::Utc;
 use tower_sessions::Session;
-
 
 const LOGIN_KEY: &str = "login";
 

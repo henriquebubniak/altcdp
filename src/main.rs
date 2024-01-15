@@ -1,4 +1,4 @@
-use altcdp::{AppState, handlers::*};
+use altcdp::{handlers::*, AppState};
 use axum::routing::{get, post, Router};
 use sqlx::{Pool, Postgres};
 use time::Duration;
