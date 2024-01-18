@@ -1,8 +1,15 @@
 use sqlx::{types::chrono::NaiveDate, Pool, Postgres, Row};
 
-use crate::structs::*;
+use crate::structs::{
+    oficinas::{CriarOficina, Oficina, Problema},
+    usuarios::{Credenciais, Usuario},
+    *,
+};
 
-pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
+pub mod oficinas;
+pub mod usuarios;
+
+pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<Oficina> {
     let mut oficinas = Vec::new();
     let result = sqlx::query(
         r"
@@ -32,7 +39,7 @@ pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
             .get::<NaiveDate, &str>("data_oficina")
             .format("%d/%m/%Y")
             .to_string();
-        let oficina_pre = OficinaPreview {
+        let oficina_pre = Oficina {
             titulo: row.get("titulo"),
             id_oficina: row.get("id_oficina"),
             link_gravacao: row.get("link_gravacao"),
@@ -45,7 +52,7 @@ pub async fn get_oficinas(db: &Pool<Postgres>) -> Vec<OficinaPreview> {
     oficinas
 }
 
-pub async fn get_oficina(db: &Pool<Postgres>, id_oficina: i32) -> OficinaPreview {
+pub async fn get_oficina(db: &Pool<Postgres>, id_oficina: i32) -> Oficina {
     let row = sqlx::query(
         r"
         select o.titulo, o.link_gravacao, i.nome, i.sobrenome , o.data_oficina 
@@ -75,7 +82,7 @@ pub async fn get_oficina(db: &Pool<Postgres>, id_oficina: i32) -> OficinaPreview
         .get::<NaiveDate, &str>("data_oficina")
         .format("%d/%m/%Y")
         .to_string();
-    OficinaPreview {
+    Oficina {
         titulo: row.get("titulo"),
         id_oficina,
         link_gravacao: row.get("link_gravacao"),
@@ -131,7 +138,7 @@ pub async fn verifica_credenciais(cred: Credenciais, db: &Pool<Postgres>) -> Opt
     .map(|row| row.get("id_integrante"))
 }
 
-pub async fn criar_usuario_db(criar_usuario: CriarUsuario, db: &Pool<Postgres>) {
+pub async fn criar_usuario_db(criar_usuario: Usuario, db: &Pool<Postgres>) {
     let _ = sqlx::query(
         r"
         insert into integrantes (email, nome, sobrenome, senha)
@@ -173,7 +180,7 @@ pub async fn deleta_presenca(id_integrante: i32, id_oficina: i32, db: &Pool<Post
     .unwrap();
 }
 
-pub async fn get_perfil(id_integrante: i32, db: &Pool<Postgres>) -> Perfil {
+pub async fn get_perfil(id_integrante: i32, db: &Pool<Postgres>) -> Usuario {
     sqlx::query_as(
         r"
         select i.email, i.nome, i.sobrenome, i.senha
