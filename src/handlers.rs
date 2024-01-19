@@ -1,4 +1,8 @@
-use crate::{queries::*, structs::*, templates::*};
+use crate::{
+    queries::{usuarios::get_nome, *},
+    structs::*,
+    templates::*,
+};
 use askama::Template;
 use axum::{
     extract::{Path, State},

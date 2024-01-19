@@ -1,9 +1,9 @@
 use crate::{
     handlers::LOGIN_KEY,
-    queries::*,
+    queries::{get_presencas, usuarios::*},
     structs::{
         usuarios::{Credenciais, Usuario},
-        *,
+        AppState, Login,
     },
     templates::*,
 };

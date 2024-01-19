@@ -1,9 +1,9 @@
 use crate::{
     handlers::LOGIN_KEY,
-    queries::*,
+    queries::{oficinas::*, presente},
     structs::{
         oficinas::{CriarOficina, CriarOficinaForm, Problema},
-        *,
+        AppState, Login,
     },
     templates::*,
 };
@@ -17,7 +17,7 @@ use sqlx::types::chrono::Utc;
 use tower_sessions::Session;
 
 pub async fn oficinas_preview(State(state): State<AppState>) -> Html<String> {
-    let oficinas = get_oficinas(&state.db).await;
+    let oficinas = get_oficinas(&state.db, None).await;
     let html = OficinasTemplate { oficinas };
     Html(html.render().unwrap())
 }
@@ -27,7 +27,7 @@ pub async fn oficina_detail(
     session: Session,
     Path(id_oficina): Path<i32>,
 ) -> Html<String> {
-    let oficina = get_oficina(&state.db, id_oficina).await;
+    let oficina = get_oficinas(&state.db, Some(id_oficina)).await;
     let html = match session
         .get::<Login>(LOGIN_KEY)
         .await
@@ -37,12 +37,12 @@ pub async fn oficina_detail(
         Login {
             id: Some(id_integrante),
         } => OficinaTemplate {
-            oficina: &oficina,
+            oficina: &oficina[0],
             login: true,
             presente: presente(id_integrante, id_oficina, &state.db).await,
         },
         Login { id: None } => OficinaTemplate {
-            oficina: &oficina,
+            oficina: &oficina[0],
             login: false,
             presente: false,
         },
