@@ -5,7 +5,7 @@ use crate::structs::oficinas::{CriarOficina, Oficina, Problema};
 pub async fn get_oficinas(db: &Pool<Postgres>, id_oficina: Option<i32>) -> Vec<Oficina> {
     let mut oficinas = Vec::new();
     let mut query = r"
-        select o.titulo, o.id_oficina, o.link_gravacao, i.nome, i.sobrenome , o.data_oficina 
+        select o.titulo, o.id_oficina, o.link_gravacao, i.nome, i.sobrenome , o.data_oficina, o.descricao 
         from oficinas o, integrantes i
         where o.id_autor = i.id_integrante"
         .to_owned();
@@ -39,6 +39,7 @@ pub async fn get_oficinas(db: &Pool<Postgres>, id_oficina: Option<i32>) -> Vec<O
             nome_autor,
             data_oficina,
             problemas,
+            descricao: row.get("descricao"),
         };
         oficinas.push(oficina_pre);
     }
@@ -48,14 +49,15 @@ pub async fn get_oficinas(db: &Pool<Postgres>, id_oficina: Option<i32>) -> Vec<O
 pub async fn criar_oficina_db(criar_oficina: CriarOficina, db: &Pool<Postgres>) {
     let id_oficina = sqlx::query(
         r"
-        insert into oficinas (titulo, id_autor, data_oficina, link_gravacao)
-        values ($1, $2, $3, $4)
+        insert into oficinas (titulo, id_autor, data_oficina, link_gravacao, descricao)
+        values ($1, $2, $3, $4, $5)
         returning id_oficina",
     )
     .bind(criar_oficina.titulo.clone())
     .bind(criar_oficina.id_autor)
     .bind(criar_oficina.data_oficina)
     .bind(criar_oficina.link_gravacao.clone())
+    .bind(criar_oficina.descricao)
     .fetch_one(db)
     .await
     .unwrap();

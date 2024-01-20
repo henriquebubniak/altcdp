@@ -9,6 +9,7 @@ pub struct Oficina {
     pub nome_autor: String,
     pub data_oficina: String,
     pub problemas: Vec<Problema>,
+    pub descricao: String,
 }
 
 pub struct CriarOficina {
@@ -17,6 +18,7 @@ pub struct CriarOficina {
     pub id_autor: i32,
     pub data_oficina: NaiveDate,
     pub problemas: Vec<Problema>,
+    pub descricao: String,
 }
 
 #[derive(Deserialize, Serialize, Debug)]
@@ -25,6 +27,7 @@ pub struct CriarOficinaForm {
     pub link_gravacao: Option<String>,
     pub problemas_alias: Option<String>,
     pub problemas_links: Option<String>,
+    pub descricao: Option<String>,
 }
 
 #[derive(FromRow, Serialize, Deserialize, Debug)]

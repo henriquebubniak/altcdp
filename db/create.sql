@@ -10,7 +10,8 @@ create table integrantes (
 create table oficinas (
 	titulo varchar(50),
 	id_oficina serial primary key,
-	link_gravacao varchar(50),
+	link_gravacao varchar(100),
+	markdown varchar(10000),
 	id_autor int,
 	data_oficina date,
 	foreign key (id_autor) references integrantes(id_integrante)
@@ -19,7 +20,7 @@ create table oficinas (
 create table problemas (
 	id_oficina int,
 	alias varchar(50),
-	link_problema varchar(50),
+	link_problema varchar(100),
 	foreign key (id_oficina) references oficinas(id_oficina),
 	primary key (id_oficina, alias)
 );
