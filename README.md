@@ -14,10 +14,11 @@
 
 ## To do
 
+- Permitir usuários editares suas oficinas
+- Permitir criação de calendário de oficinas
 - Adicionar busca à pagina de oficinas
-- Adicionar Markdown às oficinas
 - Melhorar o layout dos forms
 - Melhorar segurança das sessões
 - Melhorar estrutura do código
 - Permitir usuários se voluntariarem
-- Permitir criação de calendário de oficinas
+- Permitir administrador editar oficinas

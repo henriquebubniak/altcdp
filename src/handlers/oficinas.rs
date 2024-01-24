@@ -120,7 +120,6 @@ pub async fn criar_oficina_form(
                     }
 
                     _ => (),
-
                 }
             }
             println!("\n\n\n{:?},\n{:?}\n\n\n", problemas_alias, problemas_links);
